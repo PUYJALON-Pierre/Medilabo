@@ -26,8 +26,8 @@ public class PatientTest {
 
 		assertEquals(patient1.getId(), patient2.getId());
 		assertEquals(patient1.getBirthdate(), patient2.getBirthdate());
-		assertEquals(patient1.getFirstname(), patient2.getFirstname());
-		assertEquals(patient1.getLastname(), patient2.getLastname());
+		assertEquals(patient1.getFirstName(), patient2.getFirstName());
+		assertEquals(patient1.getLastName(), patient2.getLastName());
 		assertEquals(patient1.getGender(), patient2.getGender());
 		assertEquals(patient1.getPostalAddress(), patient2.getPostalAddress());
 		assertEquals(patient1.getPhoneNumber(), patient2.getPhoneNumber());

@@ -67,9 +67,9 @@ public class PatientServiceTest {
 	}
 
 	@Test
-	void getPatientByLastnameTest() {
+	void getPatientByLastNameTest() {
 		
-	when(patientRepository.findByLastname("enrique")).thenReturn(List.of(patient1));
+	when(patientRepository.findByLastName("enrique")).thenReturn(List.of(patient1));
     
 	List<Patient> patientsByLastname = iPatientService.getPatientByLastName("enrique");
 	
@@ -79,9 +79,9 @@ public class PatientServiceTest {
 	}
 
 	@Test
-	void getPatientByLastnameFailTest() {
+	void getPatientByLastNameFailTest() {
 		
-		when(patientRepository.findByLastname("enrique")).thenReturn(List.of(patient1));
+		when(patientRepository.findByLastName("enrique")).thenReturn(List.of(patient1));
     
 	List<Patient> patientsByLastname = iPatientService.getPatientByLastName("pedro");
 	
@@ -91,9 +91,9 @@ public class PatientServiceTest {
 	}
 
 	@Test
-	void getPatientByFirstnameTest() {
+	void getPatientByFirstNameTest() {
 		
-	when(patientRepository.findByFirstname("luis")).thenReturn(List.of(patient1));
+	when(patientRepository.findByFirstName("luis")).thenReturn(List.of(patient1));
     
 	List<Patient> patientsByFirstname = iPatientService.getPatientByFirstName("luis");
 	
@@ -103,9 +103,9 @@ public class PatientServiceTest {
 	}
 
 	@Test
-	void getPatientByFirstnameFailTest() {
+	void getPatientByFirstNameFailTest() {
 		
-		when(patientRepository.findByLastname("luis")).thenReturn(List.of(patient1));
+		when(patientRepository.findByLastName("luis")).thenReturn(List.of(patient1));
     
 	List<Patient> patientsByFirstname = iPatientService.getPatientByFirstName("pedro");
 	
@@ -123,7 +123,7 @@ public class PatientServiceTest {
 	
     assertThat(patient != null);
 	assertThat(patient == patient1 );
-    assertEquals(patient.getFirstname(), "luis");
+    assertEquals(patient.getFirstName(), "luis");
 	}
 	
 	@Test

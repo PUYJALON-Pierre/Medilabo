@@ -97,7 +97,7 @@ public class PatientControllerTest {
 		mockMvc.perform(get("/patient/{id}", 1))
 		.andExpect(status().isFound())
 		.andExpect(jsonPath("$.id", is(1)))
-		.andExpect(jsonPath("$.firstname", is("luis")));
+		.andExpect(jsonPath("$.firstName", is("luis")));
 	}
 	
 	
@@ -114,14 +114,14 @@ public class PatientControllerTest {
 	
 	
 	@Test
-	void getPatientByFirstnameTest() throws Exception {
+	void getPatientByFirstNameTest() throws Exception {
 		
 	  
 		when(iPatientService.getPatientByFirstName("luis")).thenReturn(List.of(patient1));
 		
 		mockMvc.perform(get("/patient/firstname/{firstname}", "luis"))
 		.andExpect(jsonPath("$[0].id", is(1)))
-		.andExpect(jsonPath("$[0].firstname", is("luis")))
+		.andExpect(jsonPath("$[0].firstName", is("luis")))
 		.andExpect(status().isFound());
 	}
 	
@@ -138,14 +138,14 @@ public class PatientControllerTest {
 	
 	
 	@Test
-	void getPatientByLastnameTest() throws Exception {
+	void getPatientByLastNameTest() throws Exception {
 		
 	  
 		when(iPatientService.getPatientByLastName("enrique")).thenReturn(List.of(patient1));
 		
 		mockMvc.perform(get("/patient/lastname/{lastname}", "enrique"))
 		.andExpect(jsonPath("$[0].id", is(1)))
-		.andExpect(jsonPath("$[0].lastname", is("enrique")))
+		.andExpect(jsonPath("$[0].lastName", is("enrique")))
 		.andExpect(status().isFound());
 	}
 	
@@ -166,7 +166,7 @@ public class PatientControllerTest {
 				 .content(new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(patient1)))
 		 .andExpect(status().isCreated())
 			.andExpect(jsonPath("$.id", is(1)))
-			.andExpect(jsonPath("$.firstname", is("luis")));
+			.andExpect(jsonPath("$.firstName", is("luis")));
 		
 	}
 	
@@ -182,7 +182,7 @@ public class PatientControllerTest {
 	
 	@Test
 	void updatePatientTest() throws Exception {
-		patient1.setFirstname("pedro");
+		patient1.setFirstName("pedro");
 		
 		when(iPatientService.updatePatient(patient1)).thenReturn(patient1);
 		 mockMvc.perform(put("/patient")
@@ -190,7 +190,7 @@ public class PatientControllerTest {
 				 .content(new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(patient1)))
 		 .andExpect(status().isOk())
 			.andExpect(jsonPath("$.id", is(1)))
-			.andExpect(jsonPath("$.firstname", is("pedro")));
+			.andExpect(jsonPath("$.firstName", is("pedro")));
 		
 	}
 	
@@ -214,7 +214,7 @@ public class PatientControllerTest {
 				
 		 .andExpect(status().isOk())
 			.andExpect(jsonPath("$.id", is(1)))
-			.andExpect(jsonPath("$.firstname", is("luis")));	
+			.andExpect(jsonPath("$.firstName", is("luis")));	
 	}
 	
 	@Test

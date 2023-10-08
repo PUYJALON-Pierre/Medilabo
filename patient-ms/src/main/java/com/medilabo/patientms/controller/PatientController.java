@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,11 +16,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.medilabo.patientms.exception.PatientNotFoundException;
 import com.medilabo.patientms.model.Patient;
 import com.medilabo.patientms.service.IPatientService;
 
+/**
+ * Controller CRUD class for Patient in patient microservice (Médilabo)
+ *
+ */
 @RestController
 @RequestMapping("/patient")
+@CrossOrigin("http://localhost:4200")
 public class PatientController {
 
 	final static Logger LOGGER = LogManager.getLogger(PatientController.class);
@@ -31,6 +38,11 @@ public class PatientController {
 		this.iPatientService = iPatientService;
 	}
 
+	/**
+	 * Request to get all patients
+	 * 
+	 * @return ResponseEntity(List of Patient)
+	 */
 	@GetMapping("/allPatients")
 	public ResponseEntity<List<Patient>> getPatients() {
 		LOGGER.debug("GetMapping of all patients");
@@ -46,8 +58,15 @@ public class PatientController {
 		}
 	}
 
+	/**
+	 * Request to get patient by his id
+	 * 
+	 * @param id - Integer
+	 * @return ResponseEntity (Patient)
+	 * @throws Exception
+	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Patient> getPatientById(@PathVariable("id") Integer id) throws Exception {
+	public ResponseEntity<Patient> getPatientById(@PathVariable("id") Integer id) throws PatientNotFoundException {
 		LOGGER.debug("Getting request for finding patient with id:{}", id);
 		Patient searchPatient = iPatientService.getPatientById(id);
 		if (searchPatient == null) {
@@ -58,31 +77,50 @@ public class PatientController {
 		return new ResponseEntity<>(searchPatient, HttpStatus.FOUND);
 	}
 
+	/**
+	 * Request to get patient by his lastName
+	 * 
+	 * @param lastname - String
+	 * @return ResponseEntity (Patient)
+	 * @throws Exception
+	 */
 	@GetMapping("/lastname/{lastname}")
-	public ResponseEntity<List<Patient>> getPatientByLastname(@PathVariable("lastname") String lastName) {
-		LOGGER.debug("Getting request for finding patient with lastname:{}", lastName);
+	public ResponseEntity<List<Patient>> getPatientByLastName(@PathVariable("lastname") String lastName) {
+		LOGGER.debug("Getting request for finding patient with last name:{}", lastName);
 		List<Patient> searchPatient = iPatientService.getPatientByLastName(lastName);
 		if (searchPatient == null) {
-			LOGGER.error("Error during recuperation of patients with lastName:{}", lastName);
+			LOGGER.error("Error during recuperation of patients with last name:{}", lastName);
 			return new ResponseEntity<>(searchPatient, HttpStatus.NOT_FOUND);
 		}
-		LOGGER.info("Patients with lastname {} founded", lastName);
+		LOGGER.info("Patients with last name {} founded", lastName);
 		return new ResponseEntity<>(searchPatient, HttpStatus.FOUND);
 	}
 
+	/**
+	 * Request to get patient by his firstName
+	 * 
+	 * @param firstname - String
+	 * @return ResponseEntity (Patient)
+	 * @throws Exception
+	 */
 	@GetMapping("/firstname/{firstname}")
-	public ResponseEntity<List<Patient>> getPatientByFirstname(@PathVariable("firstname") String firstname) {
-		LOGGER.debug("Getting request for finding patient with firstName:{}", firstname);
-		List<Patient> searchPatient = iPatientService.getPatientByFirstName(firstname);
+	public ResponseEntity<List<Patient>> getPatientByFirstName(@PathVariable("firstname") String firstName) {
+		LOGGER.debug("Getting request for finding patient with first name:{}", firstName);
+		List<Patient> searchPatient = iPatientService.getPatientByFirstName(firstName);
 		if (searchPatient == null) {
-			LOGGER.error("Error during recuperation of patients with firstname:{}", firstname);
+			LOGGER.error("Error during recuperation of patients with first name:{}", firstName);
 			return new ResponseEntity<>(searchPatient, HttpStatus.NOT_FOUND);
 		}
-		LOGGER.info("Patients with firstname {} founded", firstname);
+		LOGGER.info("Patients with first name {} founded", firstName);
 		return new ResponseEntity<>(searchPatient, HttpStatus.FOUND);
 	}
 
-
+	/**
+	 * Request to add a new patient
+	 * 
+	 * @param patient - Patient
+	 * @return ResponseEntity (Patient)
+	 */
 	@PostMapping
 	public ResponseEntity<Patient> addPatient(@RequestBody Patient patient) {
 
@@ -98,8 +136,15 @@ public class PatientController {
 		}
 	}
 
+	/**
+	 * Request to update an existing patient
+	 * 
+	 * @param patient - Patient
+	 * @return ResponseEntity (Patient)
+	 * @throws Exception
+	 */
 	@PutMapping
-	public ResponseEntity<Patient> updatePatient(@RequestBody Patient patient) throws Exception {
+	public ResponseEntity<Patient> updatePatient(@RequestBody Patient patient) throws PatientNotFoundException {
 
 		LOGGER.debug("PutMapping patient {} ", patient.getId());
 		Patient patientToUpdate = iPatientService.updatePatient(patient);
@@ -113,8 +158,15 @@ public class PatientController {
 		}
 	}
 
+	/**
+	 * Request to delete an existing patient by his id
+	 * 
+	 * @param id - Integer
+	 * @return ResponseEntity (Patient)
+	 * @throws Exception
+	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Patient> deletePatientWithId(@PathVariable("id") Integer id) throws Exception {
+	public ResponseEntity<Patient> deletePatientWithId(@PathVariable("id") Integer id) throws PatientNotFoundException {
 
 		LOGGER.debug("DeleteMapping for patient with id {} ", id);
 

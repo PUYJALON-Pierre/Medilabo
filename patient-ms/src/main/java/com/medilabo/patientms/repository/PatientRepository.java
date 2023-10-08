@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.medilabo.patientms.model.Patient;
 
-public interface PatientRepository  extends JpaRepository<Patient, Integer> {
-	
-	public List <Patient> findByLastname(String lastname);
-	public List <Patient> findByFirstname(String firstname);
-	
+/**
+ * Patient repository interface of Patient microservice (Médilabo)
+ */
+public interface PatientRepository extends JpaRepository<Patient, Integer> {
 
-	
-	
+	public List<Patient> findByLastName(String lastName);
+
+	public List<Patient> findByFirstName(String firstName);
+
 }

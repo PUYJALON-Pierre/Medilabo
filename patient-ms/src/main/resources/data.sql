@@ -22,17 +22,17 @@ USE `medilabo_patient`;
 -- Listage de la structure de table medilabo_patient. patient
 CREATE TABLE IF NOT EXISTS `patient` (
   `patient_id` int NOT NULL AUTO_INCREMENT,
-  `lastname` varchar(50) NOT NULL,
-  `firstname` varchar(50) NOT NULL,
+  `last_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `first_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `birthdate` date NOT NULL,
   `gender` enum('F','M') NOT NULL,
   `postal_address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `phone_number` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`patient_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Listage des données de la table medilabo_patient.patient : ~0 rows (environ)
-INSERT INTO `patient` (`patient_id`, `lastname`, `firstname`, `birthdate`, `gender`, `postal_address`, `phone_number`) VALUES
+-- Listage des données de la table medilabo_patient.patient : ~4 rows (environ)
+INSERT INTO `patient` (`patient_id`, `last_name`, `first_name`, `birthdate`, `gender`, `postal_address`, `phone_number`) VALUES
 	(1, 'TestNone', 'Test', '1966-12-31', 'F', '1 Brookside St', '100-222-3333'),
 	(2, 'TestBorderline', 'Test', '1945-06-24', 'M', '2 High St', '200-333-4444'),
 	(3, 'TestInDanger', 'Test', '2004-06-18', 'M', '3 Club Road', '300-444-5555'),
