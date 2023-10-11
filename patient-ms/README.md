@@ -93,7 +93,7 @@ Available for all platforms (PC, tablets, phones)
     - "1" for id, 
     - "Test" for firstName, 
     - "TestNone" for lastName, 
-    - This body for adding and update ->       {
+    - Example of body for adding and update ->       {
                                                     "id": 5,
                                                     "firstName": "Test5 ",
                                                     "lastName": "TestNone5",
