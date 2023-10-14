@@ -15,7 +15,7 @@ Available for all platforms (PC, tablets, phones)
 - Java 17 
 - Maven 3.8.7 
 - Spring Boot 3.1.4
-- Maven dependencies : (Lombok / Spring Webflux / Spring Data JPA / Spring Security / MySQL Driver / Jacoco / Actuator / Eureka / SpringCloud & SpringCloudConfig / Swagger)
+- Maven dependencies : (Lombok / Spring Web / Spring Data JPA / Spring Security / MySQL Driver / Jacoco / Actuator / Eureka / SpringCloud & SpringCloudConfig / Swagger)
 
 - SQL script for creating database in : src/main/resources/data.sql
 
@@ -43,7 +43,7 @@ Available for all platforms (PC, tablets, phones)
 
 (Eureka and Config server present in global project must be running in order to fetch properties on distant repository)
 
--> When the server is running, you can login as user:"" and password:"" to use different endpoints
+-> When the server is running, you can login as user:"user" and password:"password" to use different endpoints
 
 -> Tests can be run with Maven
 

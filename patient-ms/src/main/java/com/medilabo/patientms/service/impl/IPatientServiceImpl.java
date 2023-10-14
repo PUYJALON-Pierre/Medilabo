@@ -11,6 +11,8 @@ import com.medilabo.patientms.model.Patient;
 import com.medilabo.patientms.repository.PatientRepository;
 import com.medilabo.patientms.service.IPatientService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -58,6 +60,20 @@ public class IPatientServiceImpl implements IPatientService{
 		return patientsByFirstName;
 	}
 
+	
+	@Override
+	public List<Patient> getPatientByLastNameOrFirstName(String keyword) {
+		LOGGER.debug("Starting finding patients by firstName or lastName");
+		LOGGER.info("Searching patients with keyword: {} ", keyword);
+		List<Patient> patientsByKeyword = patientRepository.findByKeywordContaining(keyword);
+		if (patientsByKeyword.isEmpty()) {
+			LOGGER.error("No patients founded with keyword : {}", keyword);
+		}
+		return patientsByKeyword;
+	}
+	
+	
+	
 	@Override
 	public Patient getPatientById(int id) throws PatientNotFoundException  {
 		LOGGER.debug("Finding patient with id : {}", id);
@@ -105,6 +121,8 @@ public class IPatientServiceImpl implements IPatientService{
 		}
 
 	}
+
+
 
 	
 }

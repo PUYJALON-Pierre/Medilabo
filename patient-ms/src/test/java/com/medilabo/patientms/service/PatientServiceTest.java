@@ -113,7 +113,32 @@ public class PatientServiceTest {
 	assertThat(patientsByFirstname.size()).isEqualTo(0);
 		
 	}
-
+	@Test
+	void getPatientByLastNameOrFirstName() {
+		
+	when(patientRepository.findByKeywordContaining("luis")).thenReturn(List.of(patient1));
+    
+	List<Patient> patientsByFirstname = iPatientService.getPatientByLastNameOrFirstName("luis");
+	
+	assertThat(patientsByFirstname.contains(patient1));
+	assertThat(patientsByFirstname.size()).isEqualTo(1);
+		
+	}
+	
+	
+	@Test
+	void getPatientByLastNameOrFirstNameTest() {
+		
+		when(patientRepository.findByKeywordContaining("luis")).thenReturn(List.of(patient1));
+    
+	List<Patient> patientsByFirstname = iPatientService.getPatientByLastNameOrFirstName("pedro");
+	
+	assertThat(patientsByFirstname.isEmpty());
+	assertThat(patientsByFirstname.size()).isEqualTo(0);
+		
+	}
+	
+	
 	@Test
 	void getPatientByIdTest() throws Exception {
 		

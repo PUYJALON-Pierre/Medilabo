@@ -2,6 +2,9 @@ package com.medilabo.patientms.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.medilabo.patientms.exception.PatientNotFoundException;
 import com.medilabo.patientms.model.Patient;
 
@@ -29,10 +32,18 @@ public interface IPatientService {
 	List<Patient> getPatientByLastName(String lastName);
 
 	/**
+	 * Retrieve a list of Patients by keyword matching lastName or firstName
+	 * 
+	 * @param keyword - String
+	 * @return List of Patient
+	 */
+	List<Patient> getPatientByLastNameOrFirstName(String keyword);
+
+	/**
 	 * Retrieve a Patient by his firstName
 	 * 
 	 * @param firstName - String
-	 * @return Patient
+	 * @return List of Patient
 	 */
 	List<Patient> getPatientByFirstName(String firstName);
 

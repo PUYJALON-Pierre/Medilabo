@@ -25,7 +25,8 @@ public class GatewayServerApplication {
 	        return builder.routes()
 	                .route("patient-ms", r -> r.path("/patient/**")
 	                        .uri("lb://PATIENT-MS"))
-	                
+	                .route("client-ui", r -> r.path("/client/**")
+	                        .uri("lb://CLIENT-UI"))
 	                .build();   
 	}
 	

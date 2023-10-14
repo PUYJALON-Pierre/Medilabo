@@ -71,7 +71,7 @@ public class PatientControllerTest {
 		when(iPatientService.getAllPatients()).thenReturn(patients);
 		
 		mockMvc.perform(get("/patient/allPatients"))
-		.andExpect(status().isFound())
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$", hasSize(2)))
 		.andExpect(jsonPath("$[1].id", is(2)))
 		.andExpect(jsonPath("$[0].id", is(1)));
@@ -95,7 +95,7 @@ public class PatientControllerTest {
 		when(iPatientService.getPatientById(1)).thenReturn(patient1);
 		
 		mockMvc.perform(get("/patient/{id}", 1))
-		.andExpect(status().isFound())
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.id", is(1)))
 		.andExpect(jsonPath("$.firstName", is("luis")));
 	}
@@ -122,7 +122,7 @@ public class PatientControllerTest {
 		mockMvc.perform(get("/patient/firstname/{firstname}", "luis"))
 		.andExpect(jsonPath("$[0].id", is(1)))
 		.andExpect(jsonPath("$[0].firstName", is("luis")))
-		.andExpect(status().isFound());
+		.andExpect(status().isOk());
 	}
 	
 	@Test
@@ -146,7 +146,7 @@ public class PatientControllerTest {
 		mockMvc.perform(get("/patient/lastname/{lastname}", "enrique"))
 		.andExpect(jsonPath("$[0].id", is(1)))
 		.andExpect(jsonPath("$[0].lastName", is("enrique")))
-		.andExpect(status().isFound());
+		.andExpect(status().isOk());
 	}
 	
 	@Test
@@ -158,6 +158,31 @@ public class PatientControllerTest {
 		mockMvc.perform(get("/patient/lastname/{lastname}", "enrique"))
 		.andExpect(status().isNotFound());
 	}
+	
+	
+	
+	@Test
+	void getPatientsByKeywordOnFirstNameOrLastNameTest() throws Exception {
+		
+	  
+		when(iPatientService.getPatientByLastNameOrFirstName("enrique")).thenReturn(List.of(patient1));
+		
+		mockMvc.perform(get("/patient/search/{keyword}", "enrique"))
+		.andExpect(jsonPath("$[0].id", is(1)))
+		.andExpect(jsonPath("$[0].lastName", is("enrique")))
+		.andExpect(status().isOk());
+	}
+	
+	@Test
+	void getPatientsByKeywordOnFirstNameOrLastNameFailTest() throws Exception {
+		
+	  
+		when(iPatientService.getPatientByLastNameOrFirstName("enrique")).thenReturn(null);
+		
+		mockMvc.perform(get("/patient/search/{keyword}", "enrique"))
+		.andExpect(status().isNotFound());
+	}
+	
 	
 	@Test
 	void addPatientTest() throws Exception {

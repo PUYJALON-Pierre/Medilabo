@@ -4,8 +4,12 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.medilabo.patientms.exception.PatientNotFoundException;
@@ -26,7 +31,7 @@ import com.medilabo.patientms.service.IPatientService;
  */
 @RestController
 @RequestMapping("/patient")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("http://localhost:8083")
 public class PatientController {
 
 	final static Logger LOGGER = LogManager.getLogger(PatientController.class);
@@ -54,7 +59,7 @@ public class PatientController {
 			return new ResponseEntity<>(patients, HttpStatus.NOT_FOUND);
 		} else {
 			LOGGER.info("Patients list founded");
-			return new ResponseEntity<>(patients, HttpStatus.FOUND);
+			return new ResponseEntity<>(patients, HttpStatus.OK);
 		}
 	}
 
@@ -74,7 +79,7 @@ public class PatientController {
 			return new ResponseEntity<>(searchPatient, HttpStatus.NOT_FOUND);
 		}
 		LOGGER.info("Patient with id {} founded", id);
-		return new ResponseEntity<>(searchPatient, HttpStatus.FOUND);
+		return new ResponseEntity<>(searchPatient, HttpStatus.OK);
 	}
 
 	/**
@@ -93,7 +98,7 @@ public class PatientController {
 			return new ResponseEntity<>(searchPatient, HttpStatus.NOT_FOUND);
 		}
 		LOGGER.info("Patients with last name {} founded", lastName);
-		return new ResponseEntity<>(searchPatient, HttpStatus.FOUND);
+		return new ResponseEntity<>(searchPatient, HttpStatus.OK);
 	}
 
 	/**
@@ -112,7 +117,29 @@ public class PatientController {
 			return new ResponseEntity<>(searchPatient, HttpStatus.NOT_FOUND);
 		}
 		LOGGER.info("Patients with first name {} founded", firstName);
-		return new ResponseEntity<>(searchPatient, HttpStatus.FOUND);
+		return new ResponseEntity<>(searchPatient, HttpStatus.OK);
+	}
+
+	/**
+	 * Request to get patient by keyword matching firstName or lastName
+	 * 
+	 * @param keyword     - String
+	 * @param currentPage - int
+	 * @param pageSize    - int
+	 * @return ResponseEntity (Page of Patient)
+	 */
+	@GetMapping("/search/{keyword}")
+	public ResponseEntity<List<Patient>> getPagePatientsByKeyword(@RequestParam(name = "keyword", defaultValue = "") String keyword) {
+		LOGGER.debug("Getting request for finding patients with keyword:{}", keyword);
+
+		List<Patient> searchPatient = iPatientService.getPatientByLastNameOrFirstName(keyword);
+
+		if (searchPatient == null) {
+			LOGGER.error("Error during recuperation of patients with keyword:{}", keyword);
+			return new ResponseEntity<>(searchPatient, HttpStatus.NOT_FOUND);
+		}
+		LOGGER.info("Patients with keyword founded", keyword);
+		return new ResponseEntity<>(searchPatient, HttpStatus.OK);
 	}
 
 	/**
