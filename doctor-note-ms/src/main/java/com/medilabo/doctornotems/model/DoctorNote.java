@@ -10,7 +10,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-
+/**
+ * Model class for DoctorNote in doctor-note-ms (Médilabo)
+ *
+ */
 @Document(collection = "doctor_notes")
 @Data
 @AllArgsConstructor
@@ -25,9 +28,7 @@ public class DoctorNote {
 	private String noteContent;
 	
 	@DateTimeFormat(pattern = "MM-dd-yyyy")
-	private LocalDate date = LocalDate.now();
-	
-
+	private LocalDate date;
 	
 
 }

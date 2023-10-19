@@ -70,9 +70,9 @@ public class DoctorNoteControllerTest {
        when(iDoctorNoteService.getAllDoctorNotesByPatient(1)).thenReturn(List.of(note1, note3));
 		
 		mockMvc.perform(get("/doctorNote/patient/{patientId}", 1))
-		.andExpect(status().isFound())
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$", hasSize(2)))
-		.andExpect(jsonPath("$[1].patientId", is(1)))
+		.andExpect(jsonPath("$[1].patientId", is(3)))
 		.andExpect(jsonPath("$[0].patientId", is(1)));
 		
 		
@@ -98,7 +98,7 @@ public class DoctorNoteControllerTest {
 		when(iDoctorNoteService.getDoctorNoteById("1")).thenReturn(note1);
 		
 		mockMvc.perform(get("/doctorNote/note/{noteId}", 1))
-		.andExpect(status().isFound())
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.noteId", is("1")))
 		.andExpect(jsonPath("$.noteContent", is("note")));
 	}

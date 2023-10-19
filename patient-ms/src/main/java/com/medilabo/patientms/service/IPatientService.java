@@ -17,7 +17,7 @@ import com.medilabo.patientms.model.Patient;
 public interface IPatientService {
 
 	/**
-	 * Retrieve a list of all BidList
+	 * Retrieve a list of all Patient
 	 * 
 	 * @return List of Patient
 	 */

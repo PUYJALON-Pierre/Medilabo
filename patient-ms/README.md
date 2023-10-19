@@ -43,7 +43,7 @@ Available for all platforms (PC, tablets, phones)
 
 (Eureka and Config server present in global project must be running in order to fetch properties on distant repository)
 
--> When the server is running, you can login as user:"user" and password:"password" to use different endpoints
+-> When the server is running, you can use different endpoints
 
 -> Tests can be run with Maven
 
@@ -74,7 +74,7 @@ Available for all platforms (PC, tablets, phones)
 
 - __GET__  http://localhost:8080/patient/firstname/{firstname} (get patient by his firstName)
 
-- __GET__  http://localhost:8080/patient/lasttname/{lastname} (get patient by his lastName)
+- __GET__  http://localhost:8080/patient/lastname/{lastname} (get patient by his lastName)
 
 - __POST__  http://localhost:8080/patient (add a patient)
 

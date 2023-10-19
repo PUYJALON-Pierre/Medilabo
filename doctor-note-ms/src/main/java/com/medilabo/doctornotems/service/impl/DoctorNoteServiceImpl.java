@@ -2,11 +2,13 @@ package com.medilabo.doctornotems.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.medilabo.doctornotems.exception.DoctorNoteNotFoundException;
 import com.medilabo.doctornotems.model.DoctorNote;
 import com.medilabo.doctornotems.repository.DoctorNoteRepository;
 import com.medilabo.doctornotems.service.IDoctorNoteService;
@@ -56,13 +58,14 @@ public class DoctorNoteServiceImpl implements IDoctorNoteService {
 			return doctorNoteRepository.findById(id).get();
 		} else {
 			LOGGER.error("No doctor note founded with id : {}", id);
-			throw new Exception("Doctor note cannot be founded with this id");
+			throw new DoctorNoteNotFoundException("Doctor note cannot be founded with this id");
 		}
 	}
 
 	@Override
 	public DoctorNote saveDoctorNote(DoctorNote doctorNote) {
 		LOGGER.debug("Saving doctor note");
+		doctorNote.setDate(LocalDate.now());
 		return doctorNoteRepository.insert(doctorNote);
 	}
 
@@ -75,7 +78,7 @@ public class DoctorNoteServiceImpl implements IDoctorNoteService {
 			return doctorNoteRepository.save(doctorNote);
 		} else {
 			LOGGER.error("This doctor note cannot be updated because not founded");
-			throw new Exception("Doctor note to update not founded");
+			throw new DoctorNoteNotFoundException("Doctor note to update not founded");
 		}
 	}
 
@@ -84,15 +87,15 @@ public class DoctorNoteServiceImpl implements IDoctorNoteService {
 		LOGGER.debug("Deleting doctor note with id : {}", id);
 
 		if (getDoctorNoteById(id) != null) {
+			DoctorNote noteToDelete = doctorNoteRepository.findById(id).get();
 			doctorNoteRepository.deleteById(id);
-			return doctorNoteRepository.findById(id).get();
+			return noteToDelete;
 		} else {
 			LOGGER.error("This Doctor note cannot be deleted because not founded");
-			throw new Exception("Doctor note to delete not founded");
+			throw new DoctorNoteNotFoundException("Doctor note to delete not founded");
 
 		}
 	}
 
-	
 	
 }

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import com.medilabo.doctornotems.model.DoctorNote;
 
+/**
+ * DoctorNote repository interface of doctor-note-ms (Médilabo)
+ */
 @Repository
 public interface DoctorNoteRepository extends MongoRepository<DoctorNote, String>{
 

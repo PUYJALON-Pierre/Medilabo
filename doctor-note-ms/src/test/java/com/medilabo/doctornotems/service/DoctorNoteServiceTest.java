@@ -103,10 +103,10 @@ public class DoctorNoteServiceTest {
 	void saveDoctorNoteTest() {
 		
 		
-	    when(doctorNoteRepository.save(note2)).thenReturn(note2);
+	    when(doctorNoteRepository.insert(note2)).thenReturn(note2);
 		
 	    assertEquals(iDoctorNoteService.saveDoctorNote(note2), note2);
-	    verify(doctorNoteRepository, times(1)).save(note2);
+	    verify(doctorNoteRepository, times(1)).insert(note2);
 		
 		
 	}

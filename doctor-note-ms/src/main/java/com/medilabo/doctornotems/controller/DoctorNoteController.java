@@ -5,13 +5,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.medilabo.doctornotems.model.DoctorNote;
 import com.medilabo.doctornotems.service.IDoctorNoteService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 import java.util.List;
 
@@ -20,6 +20,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+/**
+ * Controller CRUD class for DoctorNote in doctor-note-ms (Médilabo)
+ *
+ */
 @RestController
 @RequestMapping("/doctorNote")
 public class DoctorNoteController {
@@ -36,6 +40,12 @@ public class DoctorNoteController {
 		this.iDoctorNoteService = iDoctorNoteService;
 	}
 
+	/**
+	 * Request to get all doctor's notes for a patient by her patientId
+	 * 
+	 * @param patientId - int
+	 * @return ResponseEntity(List of Patient)
+	 */
 	@GetMapping("patient/{patientId}")
 	public ResponseEntity<List<DoctorNote>> getAllDoctorNotesForPatient(@PathVariable("patientId") int patientId) {
 		LOGGER.debug("GetMapping of all doctor notes for patient {}", patientId);
@@ -51,6 +61,13 @@ public class DoctorNoteController {
 		}
 	}
 
+	/**
+	 * Request to get DoctorNote by her id
+	 * 
+	 * @param noteId - String
+	 * @return ResponseEntity (DoctorNote)
+	 * @throws Exception
+	 */
 	@GetMapping("note/{noteId}")
 	public ResponseEntity<DoctorNote> getDoctorNoteByNoteId(@PathVariable("noteId") String noteId) throws Exception {
 		LOGGER.debug("Getting request to find note with id:{}", noteId);
@@ -63,7 +80,12 @@ public class DoctorNoteController {
 		return new ResponseEntity<>(note, HttpStatus.OK);
 	}
 
-	// @valid?
+/**
+ * Request to add a new doctor note
+ * 
+ * @param doctorNote - DoctorNote
+ * @return ResponseEntity (DoctorNote)
+ */
 	@PostMapping
 	public ResponseEntity<DoctorNote> addDoctorNote(@RequestBody DoctorNote doctorNote) {
 
@@ -79,6 +101,13 @@ public class DoctorNoteController {
 		}
 	}
 
+	/**
+	 * Request to update a new doctor note
+	 * 
+	 * @param doctorNote - DoctorNote
+	 * @return ResponseEntity (DoctorNote)
+	 * @throws Exception
+	 */
 	@PutMapping
 	public ResponseEntity<DoctorNote> updateDoctorNote(@RequestBody DoctorNote doctorNote) throws Exception {
 		LOGGER.debug("PutMapping doctor note {} ", doctorNote.getNoteId());
@@ -94,6 +123,13 @@ public class DoctorNoteController {
 
 	}
 
+	/**
+	 * Request to delete an existing doctor note by her id
+	 * 
+	 * @param noteId - String
+	 * @return ResponseEntity (DoctorNote)
+	 * @throws Exception
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<DoctorNote> deleteDoctorNoteWithId(@PathVariable("id") String noteId) throws Exception {
 
