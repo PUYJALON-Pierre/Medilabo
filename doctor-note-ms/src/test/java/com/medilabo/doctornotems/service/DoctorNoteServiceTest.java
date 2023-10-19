@@ -40,9 +40,9 @@ public class DoctorNoteServiceTest {
 	@BeforeEach
 	void setUp() {
 
-		note1 = new DoctorNote("1", LocalDate.of(2023, 8, 4), "note", 1);
-		note2 = new DoctorNote("2", LocalDate.of(2023, 7, 2), "note2", 2);
-		note3 = new DoctorNote("3", LocalDate.of(2023, 1, 2), "note3", 1);
+		note1 = new DoctorNote("1", 1, "note", LocalDate.of(2023, 8, 4));
+		note2 = new DoctorNote("2", 2, "note2", LocalDate.of(2023, 7, 2));
+		note3 = new DoctorNote("3", 3, "note3" ,LocalDate.of(2023, 1, 2));
 
 	}
 

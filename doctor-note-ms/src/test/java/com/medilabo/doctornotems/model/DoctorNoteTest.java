@@ -16,8 +16,8 @@ public class DoctorNoteTest {
 	@Test
 	public void DoctorNoteEqualsAndHashCodeTest() {
 
-		DoctorNote note1 = new DoctorNote("1", LocalDate.of(2023, 8, 4), "note", 1);
-		DoctorNote note2 = new DoctorNote("1", LocalDate.of(2023, 8, 4), "note", 1);
+		DoctorNote note1 = new DoctorNote("1", 1, "note", LocalDate.of(2023, 8, 4));
+		DoctorNote note2 = new DoctorNote("2", 2, "note2", LocalDate.of(2023, 7, 2));
 
 		assertNotSame(note1, note2);
 

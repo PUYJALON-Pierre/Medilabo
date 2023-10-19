@@ -63,7 +63,7 @@ public class DoctorNoteServiceImpl implements IDoctorNoteService {
 	@Override
 	public DoctorNote saveDoctorNote(DoctorNote doctorNote) {
 		LOGGER.debug("Saving doctor note");
-		return doctorNoteRepository.save(doctorNote);
+		return doctorNoteRepository.insert(doctorNote);
 	}
 
 	@Override

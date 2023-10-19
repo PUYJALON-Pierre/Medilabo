@@ -19,11 +19,15 @@ public class DoctorNote {
 	@Id
 	private String noteId;
 	
-	@DateTimeFormat(pattern = "MM-dd-yyyy")
-	private LocalDate date = LocalDate.now();
+	@NotNull(message = "Patient ID is required")
+	private int patientId;
 	
 	private String noteContent;
 	
-	@NotNull(message = "Patient ID is required")
-	private int patientId;
+	@DateTimeFormat(pattern = "MM-dd-yyyy")
+	private LocalDate date = LocalDate.now();
+	
+
+	
+
 }
