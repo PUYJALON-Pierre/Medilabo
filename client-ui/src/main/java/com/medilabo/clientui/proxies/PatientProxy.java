@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ import com.medilabo.clientui.beans.PatientBean;
  * Feign
  * 
  */
-@FeignClient(name = "patient-ms", url = "localhost:8080")
+@FeignClient(name = "gateway-server", url = "localhost:9103")
 public interface PatientProxy {
 
 	/**
@@ -47,7 +48,7 @@ public interface PatientProxy {
 	 * @param keyword - String
 	 * @return List of PatientBean
 	 */
-	@GetMapping("patient/search/{keyword}")
+	@GetMapping("patient/search")
 	List<PatientBean> getPagePatientsByKeyword(@RequestParam(name = "keyword", defaultValue = "") String keyword);
 
 	/**

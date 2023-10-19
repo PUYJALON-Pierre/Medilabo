@@ -51,7 +51,7 @@
 						<input type="text" th:field="*{phoneNumber}" id="phoneNumber" placeholder="PhoneNumber"
 							class="col-4">
 						<div th:if="${#fields.hasErrors('phoneNumber')} " class="text-danger"
-							th:errors="*{phoneNumber}"></div>
+							th:errors="${patient.phoneNumber}"></div>
 					</div>
 				</div>
 

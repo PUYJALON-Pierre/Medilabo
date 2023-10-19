@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ import jakarta.validation.Valid;
  */
 @Controller
 @RequestMapping("/client")
+@CrossOrigin("http://localhost:8080")
 public class ClientController {
 
 	final static Logger LOGGER = LogManager.getLogger(ClientController.class);
@@ -59,7 +61,8 @@ public class ClientController {
 	 * @return patient/add - (html template)
 	 */
 	@GetMapping("/patient/add")
-	public String showAddPatient(PatientBean patient, Model model) {
+	public String showAddPatient( Model model) {
+		PatientBean patient = new PatientBean();
 		model.addAttribute("patient", patient);
 		return "patient/add";
 
@@ -162,7 +165,7 @@ public class ClientController {
 	 * @return Accueil or redirect:/client
 	 */
 	@GetMapping("patient/search")
-	public String searchPatientByKeyword(@RequestParam(name = "keyword", required = false) String keyword, Model model)  {
+	public String searchPatientByKeyword(@RequestParam(name = "keyword", defaultValue = "", required = false) String keyword, Model model)  {
 		LOGGER.debug("Getting request patient/search/{keyword} to search patient with keyword:{}", keyword);
 	
 		if(keyword=="") {

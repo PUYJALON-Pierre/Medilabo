@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.LinkedMultiValueMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -163,11 +165,12 @@ public class PatientControllerTest {
 	
 	@Test
 	void getPatientsByKeywordOnFirstNameOrLastNameTest() throws Exception {
-		
+		LinkedMultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
+		requestParams.add("keyword", "enrique");
 	  
 		when(iPatientService.getPatientByLastNameOrFirstName("enrique")).thenReturn(List.of(patient1));
 		
-		mockMvc.perform(get("/patient/search/{keyword}", "enrique"))
+		mockMvc.perform(get("/patient/search").params(requestParams))
 		.andExpect(jsonPath("$[0].id", is(1)))
 		.andExpect(jsonPath("$[0].lastName", is("enrique")))
 		.andExpect(status().isOk());
@@ -175,11 +178,12 @@ public class PatientControllerTest {
 	
 	@Test
 	void getPatientsByKeywordOnFirstNameOrLastNameFailTest() throws Exception {
-		
+		LinkedMultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
+		requestParams.add("keyword", "enrique");
 	  
 		when(iPatientService.getPatientByLastNameOrFirstName("enrique")).thenReturn(null);
 		
-		mockMvc.perform(get("/patient/search/{keyword}", "enrique"))
+		mockMvc.perform(get("/patient/search").params(requestParams))
 		.andExpect(status().isNotFound());
 	}
 	

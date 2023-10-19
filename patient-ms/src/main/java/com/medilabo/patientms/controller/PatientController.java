@@ -31,7 +31,7 @@ import com.medilabo.patientms.service.IPatientService;
  */
 @RestController
 @RequestMapping("/patient")
-@CrossOrigin("http://localhost:8083")
+@CrossOrigin(origins = "*")
 public class PatientController {
 
 	final static Logger LOGGER = LogManager.getLogger(PatientController.class);
@@ -128,7 +128,7 @@ public class PatientController {
 	 * @param pageSize    - int
 	 * @return ResponseEntity (Page of Patient)
 	 */
-	@GetMapping("/search/{keyword}")
+	@GetMapping("/search")
 	public ResponseEntity<List<Patient>> getPagePatientsByKeyword(@RequestParam(name = "keyword", defaultValue = "") String keyword) {
 		LOGGER.debug("Getting request for finding patients with keyword:{}", keyword);
 
