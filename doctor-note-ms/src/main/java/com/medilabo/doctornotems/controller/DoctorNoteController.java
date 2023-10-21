@@ -52,7 +52,7 @@ public class DoctorNoteController {
 
 		List<DoctorNote> notes = iDoctorNoteService.getAllDoctorNotesByPatient(patientId);
 
-		if (notes.isEmpty()) {
+		if (notes == null) {
 			LOGGER.error("Error during recuperation of doctor notes for patient{}", patientId);
 			return new ResponseEntity<>(notes, HttpStatus.NOT_FOUND);
 		} else {

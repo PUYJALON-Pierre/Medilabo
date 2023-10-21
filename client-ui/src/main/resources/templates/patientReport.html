@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title> Médilabo</title>
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+</head>
+
+<body>
+	<div class="container-fluid bg-info text-white">
+		<div class="text-center">
+			<img src="/images/medilaboLogo.png" alt="Logo" class="img-fluid">
+		</div>
+	</div>
+
+	<section class="navigation py-1">
+		<nav class="navbar justify-content-between py-2">
+			<div>
+				<a class="navbar-brand fw-bold px-3">
+
+				</a>
+			</div>
+
+			<nav class="navbar navbar-expand navbar-light ">
+				<div class="container">
+					<ul class="navbar-nav">
+						<li class="nav-item "><a class="nav-link fw-bold" href="/client">Patient
+								Informations</a>
+						</li>
+						<li class="nav-item active"><a class="nav-link text-primary fw-bold"
+								href="/client/practitioner">Practitioner</a>
+						</li>
+
+						<li class="nav-item"><a class="nav-link fw-bold" href="/logout">Log out</a></li>
+					</ul>
+				</div>
+			</nav>
+		</nav>
+	</section>
+
+	<div class="container py-5">
+		<div class="container d-flex flex-row justify-content-between py-4">
+
+			<nav class="navbar navbar-light bg-light col-6">
+
+
+				<form th:action="@{/client/practitioner/search}" method="get" class="form-inline col-12">
+					<input type="text" name="keyword" th:value="${keyword}" class=" form-control rounded px-1 col-9"
+						placeholder="Search by first name or last name..." aria-label="Search"
+						aria-describedby="search-addon" />
+					<span class="input-group-text border-0 py-3" id="search-addon"> </span>
+					<button class="btn btn-outline-success my-2 my-sm-0 px-3" type="submit">Search</button>
+				</form>
+
+
+			</nav>
+		</div>
+
+
+		<div class="card">
+			<div class="py-3">
+				<h3 class="text-center">Patients Informations</h3>
+			</div>
+			<div class="card-body">
+				<table class="table table-striped text-center">
+					<thead>
+						<th> Id</th>
+						<th> First Name</th>
+						<th> Last Name</th>
+						<th> Birthdate</th>
+						<th> Gender</th>
+						<th> Postal Address</th>
+						<th> Phone Number</th>
+						<th> Action</th>
+					</thead>
+					<tbody>
+						<td th:text="${patient.id}"></td>
+						<td th:text="${patient.firstName}"></td>
+						<td th:text="${patient.lastName}"></td>
+						<td th:text="${patient.birthdate}"></td>
+						<td class="text-center" th:text="${patient.gender}"></td>
+						<td th:text="${patient.postalAddress}"></td>
+						<td th:text="${patient.phoneNumber}"></td>
+							<td style="width: 15%" class="text-center">
+								<a th:href="@{/client/patient/update/{id}(id=${patient.id})}">Update</a>&nbsp;|&nbsp;
+								<a th:href="@{/client/patient/delete/{id}(id=${patient.id})}" onclick="return confirm('Are you sure that you want to delete this patient?')">Delete</a>
+							</td>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+	<div class="container py-5">
+		<div class="py-3">
+			<h3 class="text-center">Doctor Notes</h3>
+		</div>
+<div class="card" style="line-height: 1.5">
+		<div class="card-body">
+			<table class="table table-striped text-center">
+				<thead>
+					<th> Note Id</th>
+					<th> Patient Id</th>
+					<th> noteContent</th>
+					<th> Date</th>
+					<th> Action</th>
+				</thead>
+				<tbody>
+					<tr th:each="doctorNote: ${doctorNotes}">
+						<td th:text="${doctorNote.noteId}" class="align-middle"></td>
+						<td th:text="${doctorNote.patientId}" class="align-middle"></td>
+						<td th:text="${doctorNote.noteContent}" class="text-left" style="word-break: break-word"></td>
+						<td th:text="${doctorNote.date}" class="align-middle text-center" style="white-space:nowrap;"></td>
+						<td style="width: 15%" class="align-middle">
+							<a th:href="@{/client/practitioner/doctorNote/delete/{id}(id=${doctorNote.noteId})}" onclick="return confirm('Are you sure that you want to delete this note?')">Delete</a>
+							</td>
+					</tr>
+				</tbody>
+
+		</table>
+		<div th:if="${#lists.isEmpty(doctorNotes)}" class="text-center fw-bold font-italic">
+			This patient have no note
+		</div>
+		</div>
+	</div>
+
+	</div>
+	
+	<form action="#" th:action="@{/client/practitioner/doctorNote/{patientId}(patientId=${patient.id})} " th:object="${doctorNote}" method="post"
+				class="form-horizontal" style="width: 100%">
+		<div class="container py-5">
+			
+			
+			
+			
+			
+			
+			
+  <div class="form-group">
+
+
+
+    <label for="exampleFormControlTextarea1"></label>
+    		<div class="form-group">
+				  <div class="form-group text-right ">
+						<div class="col-sm-12">
+							<input class="btn btn-primary btn-sm" type="submit" value="Add new note">
+						</div>
+					</div>
+    <textarea class="form-control" id="noteContentLarge" th:field="*{noteContent}" placeholder="Write your note here..." rows="10"></textarea>
+    <p class="text-danger" th:if="${#fields.hasErrors('noteContent')}" th:errors="*{noteContent}"></p>
+  </div>
+
+		
+		
+		
+	
+  </div>
+  
+  
+ 
+  
+  
+  
+  
+  </div>
+</form>
+</body>
+
+</html>

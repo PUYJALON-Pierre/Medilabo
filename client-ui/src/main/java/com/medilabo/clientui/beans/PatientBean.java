@@ -2,10 +2,13 @@ package com.medilabo.clientui.beans;
 
 import java.time.LocalDate;
 
+import org.springframework.lang.Nullable;
+
 import com.medilabo.clientui.constant.Gender;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -43,7 +46,7 @@ public class PatientBean {
 	@Size(max = 100, message = "Maximum of {max} characters")
 	private String postalAddress;
 
-	@Pattern(regexp = "^\\d{3}-\\d{3}-\\d{4}$", message = "Phone number format is 000-000-0000")
+	@Pattern(regexp = "^\\d{3}-\\d{3}-\\d{4}$|null", message = "Phone number format is 000-000-0000")
 	private String phoneNumber;
 
 	

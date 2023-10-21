@@ -2,6 +2,8 @@ package com.medilabo.patientms.model;
 
 import java.time.LocalDate;
 
+import org.springframework.lang.Nullable;
+
 import com.medilabo.patientms.constant.Gender;
 
 import jakarta.persistence.Column;
@@ -14,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -62,8 +65,8 @@ public class Patient {
 	@Column(name = "postal_address")
 	private String postalAddress;
 
-	@Column(name = "phone_number")
-	@Pattern(regexp = "^\\d{3}-\\d{3}-\\d{4}$", message = "Phone number format is 000-000-0000")
+	@Column(name = "phone_number", nullable = true)
+	@Pattern(regexp = "^\\d{3}-\\d{3}-\\d{4}$|null", message = "Phone number format is 000-000-0000")
 	private String phoneNumber;
 
 }
