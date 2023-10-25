@@ -17,11 +17,11 @@ public class DoctorNoteTest {
 	public void DoctorNoteEqualsAndHashCodeTest() {
 
 		DoctorNote note1 = new DoctorNote("1", 1, "note", LocalDate.of(2023, 8, 4));
-		DoctorNote note2 = new DoctorNote("2", 2, "note2", LocalDate.of(2023, 7, 2));
+		DoctorNote note2 = new DoctorNote("1", 1, "note", LocalDate.of(2023, 8, 4));
 
 		assertNotSame(note1, note2);
 
-		assertEquals(note1.hashCode(), note2.hashCode());
+	    assertEquals(note1.hashCode(), note2.hashCode());
 
 		assertEquals(note1.getNoteId(), note2.getNoteId());
 		assertEquals(note1.getDate(), note2.getDate());

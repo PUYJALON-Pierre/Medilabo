@@ -81,11 +81,10 @@ public class DoctorNoteControllerTest {
 	@Test
 	void getAllDoctorNotesForPatientFailTest() throws Exception {
 		
-       when(iDoctorNoteService.getAllDoctorNotesByPatient(1)).thenReturn(List.of());
+       when(iDoctorNoteService.getAllDoctorNotesByPatient(1)).thenReturn(null);
 		
 		mockMvc.perform(get("/doctorNote/patient/{patientId}", 1))
-		.andExpect(status().isNotFound())
-		.andExpect(jsonPath("$", hasSize(0)));
+		.andExpect(status().isNotFound());
 
 		
 		

@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.medilabo.clientui.beans.PatientBean;
 import com.medilabo.clientui.constant.Gender;
+import com.medilabo.clientui.proxies.DoctorNoteProxy;
 import com.medilabo.clientui.proxies.PatientProxy;
 
 @WebMvcTest(controllers = ClientController.class)
@@ -40,6 +41,9 @@ public class ClientControllerTest {
 
 	@MockBean
 	PatientProxy patientProxy;
+	
+	@MockBean
+	DoctorNoteProxy doctorNoteProxy;
 
 	private PatientBean patient1;
 	private PatientBean patient2;

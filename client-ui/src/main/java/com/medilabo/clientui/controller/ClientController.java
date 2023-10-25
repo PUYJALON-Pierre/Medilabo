@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,6 @@ import jakarta.validation.Valid;
  */
 @Controller
 @RequestMapping("/client")
-@CrossOrigin("http://localhost:8080")
 public class ClientController {
 
 	final static Logger LOGGER = LogManager.getLogger(ClientController.class);
@@ -109,12 +109,13 @@ public class ClientController {
 	 * @return redirect:/client or patient/add
 	 */
 	@PostMapping("/validate")
-	public String addPatient(@Valid PatientBean patient, Model model, BindingResult result) {
+	public String addPatient(@Valid @ModelAttribute("patient") PatientBean patient, BindingResult result, Model model) {
 
 		LOGGER.debug("Posting request client/validate for patient with id:{}", patient.getId());
 		if (result.hasErrors()) {
 			LOGGER.error("Error during saving patient : {}", result.getFieldError());
 			model.addAttribute("patient", patient);
+	
 			return "patient/add";
 		}
 
@@ -153,7 +154,7 @@ public class ClientController {
 	 * @return patient/update or redirect:/client
 	 */
 	@PostMapping("/patient/update/{id}")
-	public String updatePatient(@PathVariable("id") Integer id, @Valid PatientBean patient, BindingResult result,
+	public String updatePatient(@PathVariable("id") Integer id, @Valid @ModelAttribute("patient") PatientBean patient, BindingResult result,
 			Model model) {
 		LOGGER.debug("Putting request patient/update/{id} for patient with id:{}", id);
 		if (result.hasErrors()) {
@@ -283,8 +284,8 @@ public class ClientController {
 	 * @return patientReport (html template)
 	 */
 	@PostMapping("/practitioner/doctorNote/{patientId}")
-	public String addDoctorNote(@PathVariable("patientId") int patientId, @Valid DoctorNoteBean doctorNote, Model model,
-			BindingResult result) {
+	public String addDoctorNote(@PathVariable("patientId") int patientId, @Valid DoctorNoteBean doctorNote,
+			BindingResult result, Model model) {
 
 		LOGGER.debug("Posting request client/doctorNote for patient with id:{}", doctorNote.getPatientId());
 		model.addAttribute("doctorNote", doctorNote);
