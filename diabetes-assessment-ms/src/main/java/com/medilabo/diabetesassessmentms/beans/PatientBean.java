@@ -1,14 +1,11 @@
-package com.medilabo.clientui.beans;
+package com.medilabo.diabetesassessmentms.beans;
 
 import java.time.LocalDate;
 
-import org.springframework.lang.Nullable;
-
-import com.medilabo.clientui.constant.Gender;
+import com.medilabo.diabetesassessmentms.constant.Gender;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -16,12 +13,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PatientBean {
-
+	
 	private int id;
 
 	@NotBlank(message = "Firstname is mandatory")
@@ -48,5 +44,4 @@ public class PatientBean {
 	private String phoneNumber;
 
 	
-
 }
