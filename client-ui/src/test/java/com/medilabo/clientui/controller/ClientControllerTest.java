@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.medilabo.clientui.beans.DoctorNoteBean;
 import com.medilabo.clientui.beans.PatientBean;
 import com.medilabo.clientui.constant.Gender;
 import com.medilabo.clientui.proxies.DoctorNoteProxy;
@@ -190,8 +191,120 @@ public class ClientControllerTest {
 		
 		mockMvc.perform(get("/client/patient/search").params(requestParams))
 		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("keyword"))
+		.andExpect(model().attributeExists("patients"))
 	     .andExpect(view().name("Accueil"));
 		
 	}
+	
+	
+	
+	
+	
+	@Test
+	void getPractitionerPageTest() throws Exception  {
+	
+		when(patientProxy.getPatientById(patient1.getId())).thenReturn(patient1);
+		
+		mockMvc.perform(get("/client/practitioner"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("patients"))
+	     .andExpect(view().name("practitioner"));
+		
+	}
+	
+	
+	
+	@Test
+	void searchPatientByKeywordPractionnerTest() throws Exception  {
+		LinkedMultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
+		requestParams.add("keyword", "test");
+		
+		when(patientProxy.getPagePatientsByKeyword("test")).thenReturn(patients);
+		when(patientProxy.getPatients()).thenReturn(patients);
+		
+		mockMvc.perform(get("/client/practitioner/search").params(requestParams))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("keyword"))
+		.andExpect(model().attributeExists("patients"))
+	     .andExpect(view().name("practitioner"));
+		
+	}
+	
+	
+	
+	
+	@Test
+	void getAllDoctorNoteForPatientByHisIdTest() throws Exception  {
+
+		
+		when(patientProxy.getPatientById(1)).thenReturn(patient1);
+		when(patientProxy.getPatients()).thenReturn(patients);
+		
+		mockMvc.perform(get("/client/practitioner/doctorNote/patient/{patientId}", "1"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("doctorNote"))
+		.andExpect(model().attributeExists("doctorNotes"))
+		.andExpect(model().attributeExists("patient"))
+	     .andExpect(view().name("patientReport"));
+		
+	}
+	
+	@Test
+	void getAllDoctorNoteForPatientByHisIdFailTest() throws Exception  {
+
+		
+		when(patientProxy.getPatientById(1)).thenReturn(null);
+		when(patientProxy.getPatients()).thenReturn(null);
+		
+		mockMvc.perform(get("/client/practitioner/doctorNote/patient/{patientId}", "1"))
+		.andExpect(status().is3xxRedirection())
+	     .andExpect(view().name("redirect:/client/practitioner"));
+		
+	}
+	
+	
+	
+	
+	
+	@Test
+	void addDoctorNoteTest() throws Exception  {
+
+		
+		when(patientProxy.getPatientById(1)).thenReturn(patient1);
+
+		
+		mockMvc.perform(post("/client/practitioner/doctorNote/{patientId}", "1"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("doctorNote"))
+		.andExpect(model().attributeExists("doctorNotes"))
+		.andExpect(model().attributeExists("patient"))
+	     .andExpect(view().name("patientReport"));
+		
+	}
+	
+
+	@Test
+	void deleteDoctorNoteTest() throws Exception  {
+		
+		DoctorNoteBean doctorNote = new DoctorNoteBean();
+		doctorNote.setNoteId("1");
+		
+		when(doctorNoteProxy.getDoctorNoteById("1")).thenReturn(doctorNote);
+		when(doctorNoteProxy.deleteDoctorNoteForPatient(doctorNote.getNoteId())).thenReturn(doctorNote);
+
+		
+		when(patientProxy.getPatientById(doctorNote.getPatientId())).thenReturn(patient1);
+		when(doctorNoteProxy.getDoctorNoteByPatientId(patient1.getId())).thenReturn(List.of(doctorNote));
+		
+		mockMvc.perform(get("/client/practitioner/doctorNote/delete/{id}", "1"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("doctorNote"))
+		.andExpect(model().attributeExists("doctorNotes"))
+		.andExpect(model().attributeExists("patient"))
+	     .andExpect(view().name("patientReport"));
+		
+	}
+	
 	
 }

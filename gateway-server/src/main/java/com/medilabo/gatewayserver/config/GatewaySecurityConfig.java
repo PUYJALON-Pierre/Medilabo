@@ -12,21 +12,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationSuccessHandler;
 
+
 @Configuration
 @EnableWebFluxSecurity
 public class GatewaySecurityConfig {
 
 	
-
-		
 		public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-				    return http.csrf(csrf -> csrf.disable())
-				    		.authorizeExchange(exchanges -> exchanges
-				      .anyExchange().authenticated())
-				      .formLogin(formLogin -> formLogin
-				        .loginPage("/login").authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler("http://localhost:8083/client"))
-				        )
-				      .build();
+		    return http.csrf(csrf -> csrf.disable())
+		    		.authorizeExchange(exchanges -> exchanges
+		      .anyExchange().authenticated())
+		      .formLogin(formLogin -> formLogin
+		        .loginPage("/login").authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler("http://localhost:8083/client"))
+		        )
+		      .build();
 				}
 		
 		
@@ -46,5 +45,4 @@ public class GatewaySecurityConfig {
 		    }
 
 		
-	
 }

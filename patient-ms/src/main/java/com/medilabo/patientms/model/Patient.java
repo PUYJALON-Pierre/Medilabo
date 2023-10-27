@@ -66,7 +66,7 @@ public class Patient {
 	private String postalAddress;
 
 	@Column(name = "phone_number", nullable = true)
-	@Pattern(regexp = "^$|^\\d{3}-\\d{3}-\\d{4}$", message = "Phone number format is 000-000-0000 or null")
+	@Pattern(regexp = "^$|^\\d{3}-\\d{3}-\\d{4}$", message = "Phone number format is 000-000-0000 or empty")
 	private String phoneNumber;
 
 }

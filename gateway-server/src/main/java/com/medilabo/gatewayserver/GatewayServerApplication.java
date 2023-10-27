@@ -25,16 +25,12 @@ public class GatewayServerApplication {
 	        return builder.routes()
 	                .route("patient-ms", r -> r.path("/patient/**")
 	                        .uri("lb://PATIENT-MS"))
-	                .route("doctor-note-ms", r -> r.path("/client/**")
-	                        .uri("lb://CLIENT-UI"))
+	                .route("doctor-note-ms", r -> r.path("/doctorNote/**")
+	                        .uri("lb://DOCTOR-NOTE-MS"))
 	                .build();   
 	}
 	
-	
-	@Bean
-	public DiscoveryClientRouteDefinitionLocator dynamicRoutes(ReactiveDiscoveryClient rdc, DiscoveryLocatorProperties dlp) {
-	return new DiscoveryClientRouteDefinitionLocator(rdc, dlp);
-	}
+
 	
 	
 	

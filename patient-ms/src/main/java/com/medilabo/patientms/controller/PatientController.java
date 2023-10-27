@@ -25,13 +25,14 @@ import com.medilabo.patientms.exception.PatientNotFoundException;
 import com.medilabo.patientms.model.Patient;
 import com.medilabo.patientms.service.IPatientService;
 
+import jakarta.annotation.security.PermitAll;
+
 /**
  * Controller CRUD class for Patient in patient microservice (Médilabo)
  *
  */
 @RestController
 @RequestMapping("/patient")
-@CrossOrigin(origins = "*")
 public class PatientController {
 
 	final static Logger LOGGER = LogManager.getLogger(PatientController.class);
