@@ -2,6 +2,9 @@ package com.medilabo.diabetesassessmentms.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -15,23 +18,10 @@ import com.medilabo.diabetesassessmentms.constant.DiabetesTriggerTerms;
 @Service
 public class PatientCalculator {
 
-	public int calculatePatientAgeFromStringBirthdate(String birthdate) {
+	public int calculatePatientAgeFromLocalDate(LocalDate birthdate) {
+		LocalDate now = LocalDate.now();
 
-		Date birthdateDate = null;
-		try {
-			birthdateDate = (new SimpleDateFormat("MM/dd/yyyy")).parse(birthdate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		Date actualDate = new Date();
-		// Calculating age
-		Long ageMillisecond = (actualDate.getTime() - birthdateDate.getTime());
-
-		// Converting age into years
-		Calendar c = Calendar.getInstance();
-		c.setTimeInMillis(ageMillisecond);
-		int age = c.get(Calendar.YEAR) - 1970;
+		int age = Period.between(birthdate, now).getYears();
 
 		return age;
 
@@ -49,12 +39,11 @@ public class PatientCalculator {
 
 	public long triggerDiabeteTermCounter(List<DoctorNoteBean> notes) {
 
-		// Turn DoctorNotes list as a list of string to lowercase
-		List<String> notesToString = notes.stream().map(DoctorNoteBean::getNoteContent).map(String::toLowerCase)
-				.collect(Collectors.toList());
+		// Turn DoctorNotes list as a big String to lowercase
+		String notesToString = notes.stream().map(DoctorNoteBean::getNoteContent).map(String::toLowerCase)
+				.collect(Collectors.joining(" "));
 
-		// search for trigger term (in lower case) in the list of string
-
+		// search for trigger term (in lower case) in the string
 		long triggerCount = DiabetesTriggerTerms.list.stream().map(String::toLowerCase).filter(notesToString::contains)
 				.count();
 

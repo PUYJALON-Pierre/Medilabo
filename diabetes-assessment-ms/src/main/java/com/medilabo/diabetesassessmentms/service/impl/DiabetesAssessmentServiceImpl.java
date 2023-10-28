@@ -50,7 +50,7 @@ public class DiabetesAssessmentServiceImpl implements IDiabetesAssessmentService
 		List<DoctorNoteBean> notes = doctorNoteProxy.getDoctorNoteByPatientId(id);
 		// check null??
 
-		int age = patientCalculator.calculatePatientAgeFromStringBirthdate(patientRetrieve.getBirthdate().toString());
+		int age = patientCalculator.calculatePatientAgeFromLocalDate(patientRetrieve.getBirthdate());
 
 		// Setting data in object
 		PatientData patientData = new PatientData(id, patientRetrieve.getFirstName(), patientRetrieve.getLastName(),
@@ -69,7 +69,8 @@ public class DiabetesAssessmentServiceImpl implements IDiabetesAssessmentService
 			// getting informations for assessment
 			Boolean ageOverThirty = patientCalculator.ageOverThirty(patientdata.getAge());
 			long diabeteTriggerCount = patientCalculator.triggerDiabeteTermCounter(patientdata.getNotes());
-
+			LOGGER.info("Number of trigger terms in doctor notes {}", diabeteTriggerCount);
+			
 			// Searching RiskLevel
 			if (diabeteTriggerCount == 0) {
 				return RiskLevel.NONE;
@@ -113,7 +114,7 @@ public class DiabetesAssessmentServiceImpl implements IDiabetesAssessmentService
 			}
 
 			LOGGER.info("Diabete risk assessment for patient with id : {} completed", patientdata.getId());
-			return RiskLevel.NONE; // pour gérer les autres cas???
+			return RiskLevel.NONE; // to handle case of only one trigger term for any sex and age
 
 		}
 

@@ -5,7 +5,7 @@ import java.util.List;
 public class DiabetesTriggerTerms {
 
 	
-	public static final List<String> list = List.of(
+	public static List<String> list = List.of(
 			"Hémoglobine A1C",
 			"Microalbumine",
 			"Taille",
@@ -14,7 +14,7 @@ public class DiabetesTriggerTerms {
 			"Fumeuse",
 			"Anormal",
 			"Cholestérol",
-			"Vertiges",
+			"Vertige",
 			"Rechute",
 			"Réaction",
 			"Anticorps");
