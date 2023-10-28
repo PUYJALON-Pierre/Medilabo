@@ -18,6 +18,9 @@ import com.medilabo.diabetesassessmentms.proxies.PatientProxy;
 import com.medilabo.diabetesassessmentms.service.IDiabetesAssessmentService;
 import com.medilabo.diabetesassessmentms.util.PatientCalculator;
 
+/**
+ * Implementation class of IDiabetesAssessmentService
+ */
 @Service
 public class DiabetesAssessmentServiceImpl implements IDiabetesAssessmentService {
 
@@ -48,12 +51,11 @@ public class DiabetesAssessmentServiceImpl implements IDiabetesAssessmentService
 		}
 
 		List<DoctorNoteBean> notes = doctorNoteProxy.getDoctorNoteByPatientId(id);
-		// check null??
 
 		int age = patientCalculator.calculatePatientAgeFromLocalDate(patientRetrieve.getBirthdate());
 
 		// Setting data in object
-		PatientData patientData = new PatientData(id, patientRetrieve.getFirstName(), patientRetrieve.getLastName(),
+		PatientData patientData = new PatientData(patientRetrieve.getId(), patientRetrieve.getFirstName(), patientRetrieve.getLastName(),
 				patientRetrieve.getBirthdate(), age, patientRetrieve.getGender(), null, notes);
 
 		return patientData;
@@ -62,8 +64,8 @@ public class DiabetesAssessmentServiceImpl implements IDiabetesAssessmentService
 	@Override
 	public RiskLevel getDiabeteRiskLevelAssessment(PatientData patientdata) throws PatientDataNotFoundException {
 
-		LOGGER.debug("Starting diabetes risk assessment for patient {} {}", patientdata.getFirstname(),
-				patientdata.getLastname());
+		LOGGER.debug("Starting diabetes risk assessment for patient {} {}", patientdata.getFirstName(),
+				patientdata.getLastName());
 		if (patientdata != null) {
 
 			// getting informations for assessment

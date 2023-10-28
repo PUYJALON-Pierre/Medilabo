@@ -14,6 +14,11 @@ import com.medilabo.diabetesassessmentms.service.IDiabetesAssessmentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * 
+ * Controller class of diabetes-assessment-ms
+ * 
+ */
 @RestController
 @RequestMapping("/diabetesAssessment")
 public class DiabetesAssessmentController {
@@ -27,6 +32,13 @@ public class DiabetesAssessmentController {
 		this.iDiabetesAssessmentService = iDiabetesAssessmentService;
 	}
 
+	/**
+	 * Request to get diabetes risk level of a patient by his id
+	 * 
+	 * @param id - int
+	 * @return RiskLevel - enumeration
+	 * @throws Exception
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<RiskLevel> getRiskLevelDiabeteByPatientId(@PathVariable("id") Integer id) throws Exception {
 		LOGGER.debug("Getting request to find diabetes risk level of patient with id:{}", id);
@@ -34,7 +46,7 @@ public class DiabetesAssessmentController {
 		PatientData patientData = iDiabetesAssessmentService.retrieveDataOfPatientById(id);
 		RiskLevel diabeteRiskLevel = iDiabetesAssessmentService.getDiabeteRiskLevelAssessment(patientData);
 
-		if (diabeteRiskLevel == null) {
+		if (diabeteRiskLevel == null || patientData == null) {
 			LOGGER.error("Error during recuperation of diabetes risk level of patient with id:{}", id);
 			return new ResponseEntity<>(diabeteRiskLevel, HttpStatus.NOT_FOUND);
 		}

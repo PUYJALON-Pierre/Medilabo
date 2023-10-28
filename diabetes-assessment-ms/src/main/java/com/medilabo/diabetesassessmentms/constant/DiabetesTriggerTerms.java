@@ -2,6 +2,11 @@ package com.medilabo.diabetesassessmentms.constant;
 
 import java.util.List;
 
+/**
+ * 
+ * Model class that contains list of terms for diabetes screening
+ *
+ */
 public class DiabetesTriggerTerms {
 
 	

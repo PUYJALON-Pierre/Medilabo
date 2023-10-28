@@ -5,7 +5,7 @@ import java.util.List;
 import com.medilabo.doctornotems.model.DoctorNote;
 
 /**
- * Interface for services operations about DocotrNote in doctor-note-ms
+ * Interface for services operations about DoctorNote in doctor-note-ms
  * (Médilabo)
  *
  */

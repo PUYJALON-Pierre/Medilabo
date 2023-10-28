@@ -5,6 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
+
+/**
+ * Main class of diabetes-assessment-ms (Médilabo)
+ *
+ * @author PUYJALON Pierre
+ * @since 28/10/2023
+ */
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients("com.medilabo.diabetesassessmentms")

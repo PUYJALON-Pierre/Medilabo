@@ -15,6 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation class of IPatientService
+ */
 @Service
 public class IPatientServiceImpl implements IPatientService{
 

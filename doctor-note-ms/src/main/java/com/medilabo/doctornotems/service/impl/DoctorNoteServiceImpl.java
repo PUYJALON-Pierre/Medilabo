@@ -13,6 +13,9 @@ import com.medilabo.doctornotems.model.DoctorNote;
 import com.medilabo.doctornotems.repository.DoctorNoteRepository;
 import com.medilabo.doctornotems.service.IDoctorNoteService;
 
+/**
+ * Implementation class of IDoctorNoteService
+ */
 @Service
 public class DoctorNoteServiceImpl implements IDoctorNoteService {
 

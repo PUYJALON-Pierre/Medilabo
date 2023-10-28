@@ -6,7 +6,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.medilabo.diabetesassessmentms.beans.PatientBean;
 
-
+/**
+ * 
+ * Patient proxy interface to communicate with "patient-ms"(Microservice) by
+ * Feign
+ * 
+ */
 @FeignClient(name = "patient-ms", url = "localhost:8080")
 public interface PatientProxy {
 

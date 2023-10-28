@@ -1,12 +1,8 @@
 package com.medilabo.clientui.controller;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -25,11 +21,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.medilabo.clientui.beans.DoctorNoteBean;
 import com.medilabo.clientui.beans.PatientBean;
 import com.medilabo.clientui.constant.Gender;
+import com.medilabo.clientui.constant.RiskLevel;
+import com.medilabo.clientui.proxies.DiabetesAssessmentProxy;
 import com.medilabo.clientui.proxies.DoctorNoteProxy;
 import com.medilabo.clientui.proxies.PatientProxy;
 
@@ -45,10 +42,14 @@ public class ClientControllerTest {
 	
 	@MockBean
 	DoctorNoteProxy doctorNoteProxy;
+	
+	@MockBean
+	DiabetesAssessmentProxy diabetesAssessmentProxy;
 
 	private PatientBean patient1;
 	private PatientBean patient2;
 	private List<PatientBean> patients = new ArrayList<PatientBean>();
+	private RiskLevel riskLevel;
 
 	@BeforeEach
 	void setUp() {
@@ -240,11 +241,13 @@ public class ClientControllerTest {
 		
 		when(patientProxy.getPatientById(1)).thenReturn(patient1);
 		when(patientProxy.getPatients()).thenReturn(patients);
+		when(diabetesAssessmentProxy.getRiskLevelDiabeteByPatientId(patient1.getId())).thenReturn(riskLevel.BORDERLINE);
 		
 		mockMvc.perform(get("/client/practitioner/doctorNote/patient/{patientId}", "1"))
 		.andExpect(status().isOk())
 		.andExpect(model().attributeExists("doctorNote"))
 		.andExpect(model().attributeExists("doctorNotes"))
+		.andExpect(model().attributeExists("diabetesRiskLevel"))
 		.andExpect(model().attributeExists("patient"))
 	     .andExpect(view().name("patientReport"));
 		
@@ -256,6 +259,7 @@ public class ClientControllerTest {
 		
 		when(patientProxy.getPatientById(1)).thenReturn(null);
 		when(patientProxy.getPatients()).thenReturn(null);
+		
 		
 		mockMvc.perform(get("/client/practitioner/doctorNote/patient/{patientId}", "1"))
 		.andExpect(status().is3xxRedirection())
@@ -272,12 +276,13 @@ public class ClientControllerTest {
 
 		
 		when(patientProxy.getPatientById(1)).thenReturn(patient1);
-
+		when(diabetesAssessmentProxy.getRiskLevelDiabeteByPatientId(patient1.getId())).thenReturn(riskLevel.BORDERLINE);
 		
 		mockMvc.perform(post("/client/practitioner/doctorNote/{patientId}", "1"))
 		.andExpect(status().isOk())
 		.andExpect(model().attributeExists("doctorNote"))
 		.andExpect(model().attributeExists("doctorNotes"))
+		.andExpect(model().attributeExists("diabetesRiskLevel"))
 		.andExpect(model().attributeExists("patient"))
 	     .andExpect(view().name("patientReport"));
 		
@@ -292,7 +297,7 @@ public class ClientControllerTest {
 		
 		when(doctorNoteProxy.getDoctorNoteById("1")).thenReturn(doctorNote);
 		when(doctorNoteProxy.deleteDoctorNoteForPatient(doctorNote.getNoteId())).thenReturn(doctorNote);
-
+		when(diabetesAssessmentProxy.getRiskLevelDiabeteByPatientId(patient1.getId())).thenReturn(riskLevel.BORDERLINE);
 		
 		when(patientProxy.getPatientById(doctorNote.getPatientId())).thenReturn(patient1);
 		when(doctorNoteProxy.getDoctorNoteByPatientId(patient1.getId())).thenReturn(List.of(doctorNote));
@@ -301,6 +306,7 @@ public class ClientControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(model().attributeExists("doctorNote"))
 		.andExpect(model().attributeExists("doctorNotes"))
+		.andExpect(model().attributeExists("diabetesRiskLevel"))
 		.andExpect(model().attributeExists("patient"))
 	     .andExpect(view().name("patientReport"));
 		

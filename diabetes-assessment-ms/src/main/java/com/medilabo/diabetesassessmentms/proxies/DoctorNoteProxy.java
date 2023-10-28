@@ -8,12 +8,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.medilabo.diabetesassessmentms.beans.DoctorNoteBean;
 
-
+/**
+ * 
+ * DoctorNote proxy interface to communicate with "doctor-note-ms"(Microservice) by
+ * Feign
+ * 
+ */
 @FeignClient(name = "doctor-note-ms", url = "localhost:8081")
 public interface DoctorNoteProxy {
 
-	
-	
 	/**
 	 * Get all DoctorNotes of a specific patient from doctor-note-ms
 	 * 

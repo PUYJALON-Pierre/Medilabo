@@ -11,7 +11,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+/**
+ * Model class for PatientData in diabetes-assessment-ms
+ *
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,9 +23,9 @@ public class PatientData {
 	
 	private int id;
 	
-	private String firstname;
+	private String firstName;
 
-	private String lastname;
+	private String lastName;
 
 	private LocalDate birthdate;
 	

@@ -1,5 +1,9 @@
 package com.medilabo.diabetesassessmentms.constant;
 
+/**
+ * 
+ * Enumeration that define a scale of risk for diabetes screening
+ */
 public enum RiskLevel {
 	
 	NONE("None"),

@@ -13,6 +13,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+/**
+ * Model class for PatientBean in diabetes-assessment-ms
+ *
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
