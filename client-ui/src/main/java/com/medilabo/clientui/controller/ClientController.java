@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.medilabo.clientui.beans.DoctorNoteBean;
 import com.medilabo.clientui.beans.PatientBean;
+import com.medilabo.clientui.constant.RiskLevel;
+import com.medilabo.clientui.proxies.DiabetesAssessmentProxy;
 import com.medilabo.clientui.proxies.DoctorNoteProxy;
 import com.medilabo.clientui.proxies.PatientProxy;
 
@@ -36,11 +38,15 @@ public class ClientController {
 	private final PatientProxy patientProxy;
 
 	private final DoctorNoteProxy doctorNoteProxy;
+	
+	private final DiabetesAssessmentProxy diabetesAssessmentProxy;
 
-	public ClientController(PatientProxy patientProxy, DoctorNoteProxy doctorNoteProxy) {
+	public ClientController(PatientProxy patientProxy, DoctorNoteProxy doctorNoteProxy,
+			DiabetesAssessmentProxy diabetesAssessmentProxy) {
 		super();
 		this.patientProxy = patientProxy;
 		this.doctorNoteProxy = doctorNoteProxy;
+		this.diabetesAssessmentProxy = diabetesAssessmentProxy;
 	}
 
 	/**
@@ -243,8 +249,7 @@ public class ClientController {
 	/***************************************************************************************************************************
 	 
 	  
-	/** Search a patient by keyword containing in his first name or last name
-	 * (from client-ui view)
+	/** Get patient report with doctor note, patient informations and diabetes risk level for a specific patient by his id
 	 * 
 	 * @param keyword - String
 	 * @param model   - Model
@@ -263,12 +268,16 @@ public class ClientController {
 		PatientBean patient = patientProxy.getPatientById(patientId);
 		List<DoctorNoteBean> doctorNotes = doctorNoteProxy.getDoctorNoteByPatientId(patientId);
 
+		RiskLevel diabetesRiskLevel = diabetesAssessmentProxy.getRiskLevelDiabeteByPatientId(patientId);
+		
+		
 		if (doctorNotes == null || patient == null) {
 			return "redirect:/client/practitioner";
 		}
 
 		model.addAttribute("patient", patient);
 		model.addAttribute("doctorNotes", doctorNotes);
+		model.addAttribute("diabetesRiskLevel", diabetesRiskLevel);
 
 		return "patientReport";
 
@@ -304,7 +313,10 @@ public class ClientController {
 
 			List<DoctorNoteBean> doctorNotes = doctorNoteProxy.getDoctorNoteByPatientId(doctorNote.getPatientId());
 			model.addAttribute("doctorNotes", doctorNotes);
-
+			
+			RiskLevel diabetesRiskLevel = diabetesAssessmentProxy.getRiskLevelDiabeteByPatientId(patientId);
+			model.addAttribute("diabetesRiskLevel", diabetesRiskLevel);
+			
 			return "patientReport";
 		}
 
@@ -337,6 +349,9 @@ public class ClientController {
 
 			List<DoctorNoteBean> doctorNotes = doctorNoteProxy.getDoctorNoteByPatientId(patient.getId());
 			model.addAttribute("doctorNotes", doctorNotes);
+			
+			RiskLevel diabetesRiskLevel = diabetesAssessmentProxy.getRiskLevelDiabeteByPatientId(patient.getId());
+			model.addAttribute("diabetesRiskLevel", diabetesRiskLevel);
 
 			return "patientReport";
 		}
