@@ -27,6 +27,8 @@ public class GatewayServerApplication {
 	                        .uri("lb://PATIENT-MS"))
 	                .route("doctor-note-ms", r -> r.path("/doctorNote/**")
 	                        .uri("lb://DOCTOR-NOTE-MS"))
+	                .route("diabetes-assessment-ms", r -> r.path("/diabetesAssessment/**")
+	                        .uri("lb://DIABETES-ASSESSMENT-MS"))
 	                .build();   
 	}
 	
