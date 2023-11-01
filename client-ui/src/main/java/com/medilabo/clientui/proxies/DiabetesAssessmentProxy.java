@@ -14,7 +14,7 @@ import com.medilabo.clientui.constant.RiskLevel;
  * Feign
  * 
  */
-@FeignClient(name = "diabetes-assessment-ms", url = "localhost:8082")
+@FeignClient(name = "gateway-server-diabetes-assessment", url = "localhost:9103")
 public interface DiabetesAssessmentProxy {
 
 

@@ -1,0 +1,155 @@
+version: '3'
+services:
+
+ config-server:
+    build: 
+      context: ./config-server
+    image: config-server:latest
+    container_name: config-server
+    restart: always
+    ports: 
+      - "9101:9101"
+    networks:
+      - medilabo
+
+
+ eureka-server:
+    build: 
+      context: ./eureka-server
+    image: eureka-server:latest
+    container_name: eureka-server
+    restart: on-failure
+    ports: 
+      - "9102:9102"
+    networks:
+      - medilabo
+    depends_on:
+      - config-server
+      
+
+ gateway-server:
+    build: 
+      context: ./gateway-server
+    image: gateway-server:latest
+    container_name: gateway-server
+    restart: on-failure
+    ports: 
+      - "9103:9103"
+    networks:
+      - medilabo
+    depends_on:
+      - config-server
+      - eureka-server
+
+
+
+ mysqldb:
+    image: mysql:8
+    container_name: mysqldb
+    volumes:
+      - /patient-ms/src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql
+    restart: always
+    environment:
+      - "MYSQL_ROOT_PASSWORD=a627a158-1cd5-4ab1-a439-0d4873785246"
+      - "MYSQL_DATABASE=medilabo_patient"
+    ports:
+      - "3307:3306"
+    networks:
+      - medilabo
+
+
+ patient-ms:
+    build: 
+      context: ./patient-ms
+    image: patient-ms:latest
+    container_name: patient-ms
+    environment:
+      - "SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/medilabo_patient"
+      - "SPRING_DATASOURCE_USERNAME=pierredb"
+      - "SPRING_DATASOURCE_PASSWORD=a627a158-1cd5-4ab1-a439-0d4873785246"
+    depends_on:
+     - mysqldb
+     - config-server
+     - eureka-server
+    ports:
+     - "8080:8080"
+    networks:
+     - medilabo
+    restart: on-failure
+
+
+ mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+    - "MONGO_INITDB_DATABASE=doctornotes"
+    volumes:
+    - /doctor-note-ms/src/main/resources/doctornotes.doctor_notes.json:/docker-entrypoint-initdb.d/doctornotes.doctor_notes.json
+    ports:
+    - "27018:27017"
+    networks:
+    - medilabo
+
+
+ doctor-note-ms:
+    build: 
+      context: ./doctor-note-ms
+    image: doctor-note-ms:latest
+    container_name: doctor-note-ms
+    environment:
+      MONGODB_HOST: mongodb
+      MONGODB_PORT: 27018
+      MONGODB_DB: doctornotes
+    depends_on:
+      - mongodb
+      - config-server
+      - eureka-server
+    ports:
+      - "8081:8081"
+    networks:
+      - medilabo
+    restart: on-failure
+
+
+ diabetes-assessment-ms:
+    build: 
+      context: ./diabetes-assessment-ms
+    image: diabetes-assessment-ms:latest
+    container_name: diabetes-assessment-ms
+    depends_on:
+     - patient-ms
+     - doctor-note-ms
+     - config-server
+     - eureka-server
+    ports:
+     - "8082:8082"
+    networks:
+     - medilabo
+    restart: on-failure
+
+
+ client-ui:
+    build: 
+      context: ./client-ui
+    image: client-ui:latest
+    container_name: client-ui
+    depends_on:
+     - config-server
+     - eureka-server
+     - patient-ms
+     - doctor-note-ms
+     - diabetes-assessment-ms
+     - gateway-server
+    ports:
+     - "8083:8083"
+    networks:
+     - medilabo
+    restart: on-failure
+
+
+networks:
+  medilabo:
+    driver: bridge
+
+

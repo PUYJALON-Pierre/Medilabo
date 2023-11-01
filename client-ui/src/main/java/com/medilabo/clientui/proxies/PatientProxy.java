@@ -22,7 +22,7 @@ import com.medilabo.clientui.beans.PatientBean;
  * Feign
  * 
  */
-@FeignClient(name = "patient-ms", url = "localhost:8080")
+@FeignClient(name = "gateway-server-patient", url = "localhost:9103")
 public interface PatientProxy {
 
 	/**

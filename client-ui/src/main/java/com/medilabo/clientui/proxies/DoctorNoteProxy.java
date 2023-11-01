@@ -21,7 +21,7 @@ import com.medilabo.clientui.beans.PatientBean;
  * Feign
  * 
  */
-@FeignClient(name = "doctor-note-ms", url = "localhost:8081")
+@FeignClient(name = "gateway-server-doctor-note", url = "localhost:9103")
 public interface DoctorNoteProxy {
 
 
