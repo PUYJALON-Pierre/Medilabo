@@ -55,6 +55,12 @@
 			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
 			<version>1.0.2.RELEASE</version>
 		</dependency>
+			<dependency>
+			<groupId>com.jparams</groupId>
+			<artifactId>to-string-verifier</artifactId>
+			<version>1.4.8</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

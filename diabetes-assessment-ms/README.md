@@ -5,7 +5,6 @@ Rest API develop in Java, to make diabetes assessment for patient by his id, bas
 
 Diabete risk level scale -> None / Borderline / In Danger / Early onset
 
-
 This microservice is part of Medilabo project which allow screening of type 2 diabetes for patients by using their personnals informations and doctor's notes left during consultations.
 
 Available for all platforms (PC, tablets, phones)
@@ -17,9 +16,7 @@ Available for all platforms (PC, tablets, phones)
 - Java 17 
 - Maven 3.8.7 
 - Spring Boot 3.1.4
-- Maven dependencies : (Lombok / Spring Web / Jacoco / Actuator / Eureka / SpringCloud & SpringCloudConfig / Swagger)
-
-- Properties files located on distant repository with : https://github.com/PUYJALON-Pierre/Medilabo-Config-Server-Repo
+- Maven dependencies : (Lombok / Spring Web / Jacoco / Actuator / Eureka / SpringCloud / Swagger / OpenFeign)
 
 - Server port 8082 (http://localhost:8082)
 
@@ -33,13 +30,14 @@ Available for all platforms (PC, tablets, phones)
 
 -> Copy project from Github on your local machine
 
+-> To launch application, be sure that all those microservices from Medilabo project are running :
+     - eureka-server (to register microservice)
+     - patient-ms (to get data about patients)
+     - doctor-note-ms (to get data about notes from doctor concerning a patient)
+
 -> Go to the root of the application and execute mvn spring-boot:run
 
-(Eureka and Config server present in global project must be running in order to fetch properties on distant repository)
-
--> You also need to run doctor-note-ms and patient-ms in order to retrieve patient data
-
--> When the server is running, you can use the assessment endpoint
+-> When the server is running, you can use the assessment endpoint below
 
 -> Tests can be run with Maven
 
@@ -49,7 +47,7 @@ Available for all platforms (PC, tablets, phones)
 
 ## Endpoint :
 
-- __GET__  http://localhost:8082/diabetesAssessment/{id} (get diabete risk level of a patient by his id)
+- __GET__  http://localhost:8082/diabetesAssessment/{id} (get diabetes risk level of a patient by his id)
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
@@ -60,5 +58,7 @@ Available for all platforms (PC, tablets, phones)
 -------------------------------------------------------------------------------------------------------------------------------------
 
 
+## Coverage:
 
+![Coverage](src/main/resources/static/diabetes-assessmentCoverage.png)
 

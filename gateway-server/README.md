@@ -17,25 +17,14 @@ Available for all platforms (PC, tablets, phones)
 - Java 17 
 - Maven 3.8.7 
 - Spring Boot 3.1.4
-- Maven dependencies : (Spring Cloud Gateway / Spring Webflux / Spring (Cloud?) Security /Actuator / Eureka / SpringCloud & SpringCloudConfig)
-
-- Properties files located on distant repository with : https://github.com/PUYJALON-Pierre/Medilabo-Config-Server-Repo
+- Maven dependencies : (Spring Cloud Gateway / Spring Webflux / Spring Security / Actuator / Eureka)
 
 - Server port 9103 (http://localhost:9103)
 
+- To pass through security gateway, you can use as user:"user" and password:"password" while accessing different endpoints (be sure that eureka-server and all microservices from Medilabo project are running)
 
--------------------------------------------------------------------------------------------------------------------------------------
+- BCRYPT to encode password in database
 
-## Getting Started :
-
-- Install Maven
-- Install Java
-
--> Copy project from Github on your local machine
-
--> Go to the root of the application and execute mvn spring-boot:run
-
--> When the server is running, you can login as user:"user" and password:"password" while accessing different endpoints (be sure that all microservices from Medilabo project are running)
 
 
 

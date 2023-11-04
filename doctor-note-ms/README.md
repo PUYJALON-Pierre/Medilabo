@@ -15,11 +15,10 @@ Available for all platforms (PC, tablets, phones)
 - Java 17 
 - Maven 3.8.7 
 - Spring Boot 3.1.4
-- Maven dependencies : (Lombok / Spring Web / Spring Data MongoDB / Jacoco / Actuator / Eureka / SpringCloud & SpringCloudConfig / Swagger)
+- Mongo DB
+- Maven dependencies : (Lombok / Spring Web / Spring Data MongoDB / Jacoco / Actuator / Eureka / SpringCloud / Swagger)
 
 - Json script for inserting database informations in : src/main/resources/doctornotes.doctor_notes.json
-
-- Properties files located on distant repository with : https://github.com/PUYJALON-Pierre/Medilabo-Config-Server-Repo
 
 - Server port 8081 (http://localhost:8081)
 
@@ -36,13 +35,11 @@ Available for all platforms (PC, tablets, phones)
 
 -> Create a MongoDB connection at "mongodb://localhost:27017" and create a database doctornotes with a collection doctor_notes in it
 
--> Import doctornotes.doctor_notes.json in order to insert informations in database
+-> Import data from doctornotes.doctor_notes.json in order to insert informations in database
 
 -> Go to the root of the application and execute mvn spring-boot:run
 
-(Eureka and Config server present in global project must be running in order to fetch properties on distant repository)
-
--> When the server is running, you can use different endpoints
+-> When the server is running, you can use different endpoints from http://localhost:8081
 
 -> Tests can be run with Maven
 
@@ -84,5 +81,6 @@ Available for all platforms (PC, tablets, phones)
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
+## Coverage:
 
-
+![Coverage](src/main/resources/static/doctor-noteCoverage.png)

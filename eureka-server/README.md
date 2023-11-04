@@ -17,9 +17,7 @@ Available for all platforms (PC, tablets, phones)
 - Java 17 
 - Maven 3.8.7 
 - Spring Boot 3.1.4
-- Maven dependencies : (Actuator / Eureka / SpringCloud & SpringCloudConfig )
-
-- Properties files located on distant repository with : https://github.com/PUYJALON-Pierre/Medilabo-Config-Server-Repo
+- Maven dependencies : (Actuator / Eureka / SpringCloud)
 
 - Server port 9102 (http://localhost:9102)
 
@@ -35,9 +33,9 @@ Available for all platforms (PC, tablets, phones)
 
 -> Go to the root of the application and execute mvn spring-boot:run
 
--> When the server is running, you can run microservices to let them register on Eureka server (microservices need to have eureka-client dependencies in their pom.xml and also the url adrress of the Eureka server in their properties).
+-> When Eureka server is running, you can run microservices to let them register on Eureka server (microservices need to have eureka-client dependencies in their pom.xml and also the url adrress of the Eureka server in their properties).
 
--> You can access to http://localhost:9102/ in order to see eureka server inofrmations
+-> You can access to http://localhost:9102/ in order to see eureka server informations
 
 
 -------------------------------------------------------------------------------------------------------------------------------------

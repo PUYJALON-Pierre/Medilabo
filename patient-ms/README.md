@@ -15,15 +15,11 @@ Available for all platforms (PC, tablets, phones)
 - Java 17 
 - Maven 3.8.7 
 - Spring Boot 3.1.4
-- Maven dependencies : (Lombok / Spring Web / Spring Data JPA / Spring Security / MySQL Driver / Jacoco / Actuator / Eureka / SpringCloud & SpringCloudConfig / Swagger)
+- Maven dependencies : (Lombok / Spring Web / Spring Data JPA / Spring Security / MySQL Driver / Jacoco / Actuator / Eureka / SpringCloud / Swagger)
 
 - SQL script for creating database in : src/main/resources/data.sql
 
-- Properties files located on distant repository with : https://github.com/PUYJALON-Pierre/Medilabo-Config-Server-Repo
-
 - Server port 8080 (http://localhost:8080)
-
-- BCRYPT to encode password 
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
@@ -41,9 +37,7 @@ Available for all platforms (PC, tablets, phones)
 
 -> Go to the root of the application and execute mvn spring-boot:run
 
-(Eureka and Config server present in global project must be running in order to fetch properties on distant repository)
-
--> When the server is running, you can use different endpoints
+-> When the server is running, you can use different endpoints from http://localhost:8080
 
 -> Tests can be run with Maven
 
@@ -106,6 +100,7 @@ Available for all platforms (PC, tablets, phones)
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
+## Coverage:
 
-
+![Coverage](src/main/resources/static/patientCoverage.png)
 
