@@ -16,10 +16,12 @@
 
 
 -- Listage de la structure de la base pour medilabo_patient
+DROP DATABASE IF EXISTS `medilabo_patient`;
 CREATE DATABASE IF NOT EXISTS `medilabo_patient` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `medilabo_patient`;
 
 -- Listage de la structure de table medilabo_patient. patient
+DROP TABLE IF EXISTS `patient`;
 CREATE TABLE IF NOT EXISTS `patient` (
   `patient_id` int NOT NULL AUTO_INCREMENT,
   `last_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -29,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `patient` (
   `postal_address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `phone_number` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`patient_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Listage des données de la table medilabo_patient.patient : ~4 rows (environ)
 INSERT INTO `patient` (`patient_id`, `last_name`, `first_name`, `birthdate`, `gender`, `postal_address`, `phone_number`) VALUES

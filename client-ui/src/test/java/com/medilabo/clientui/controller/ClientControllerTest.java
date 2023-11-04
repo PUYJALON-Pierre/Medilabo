@@ -26,9 +26,8 @@ import com.medilabo.clientui.beans.DoctorNoteBean;
 import com.medilabo.clientui.beans.PatientBean;
 import com.medilabo.clientui.constant.Gender;
 import com.medilabo.clientui.constant.RiskLevel;
-import com.medilabo.clientui.proxies.DiabetesAssessmentProxy;
-import com.medilabo.clientui.proxies.DoctorNoteProxy;
-import com.medilabo.clientui.proxies.PatientProxy;
+import com.medilabo.clientui.proxies.GatewayProxy;
+
 
 @WebMvcTest(controllers = ClientController.class)
 @TestInstance(Lifecycle.PER_CLASS)
@@ -38,13 +37,9 @@ public class ClientControllerTest {
 	MockMvc mockMvc;
 
 	@MockBean
-	PatientProxy patientProxy;
+	GatewayProxy gatewayProxy;
 	
-	@MockBean
-	DoctorNoteProxy doctorNoteProxy;
-	
-	@MockBean
-	DiabetesAssessmentProxy diabetesAssessmentProxy;
+
 
 	private PatientBean patient1;
 	private PatientBean patient2;
@@ -69,7 +64,7 @@ public class ClientControllerTest {
 	@Test
 	void getAccueilTest() throws Exception  {
 		
-		when(patientProxy.getPatients()).thenReturn(patients);
+		when(gatewayProxy.getPatients()).thenReturn(patients);
 		
 		mockMvc.perform(get("/client"))
 		.andExpect(status().isOk())
@@ -84,7 +79,7 @@ public class ClientControllerTest {
 	@Test
 	void getPatientAddFormTest() throws Exception  {
 	
-		when(patientProxy.getPatientById(patient1.getId())).thenReturn(patient1);
+		when(gatewayProxy.getPatientById(patient1.getId())).thenReturn(patient1);
 		
 		mockMvc.perform(get("/client/patient/add"))
 		.andExpect(status().isOk())
@@ -96,7 +91,7 @@ public class ClientControllerTest {
 	@Test
 	void addPatientTest() throws Exception  {
 	
-		when(patientProxy.addPatient(patient1)).thenReturn(patient1);
+		when(gatewayProxy.addPatient(patient1)).thenReturn(patient1);
 		
 		mockMvc.perform(post("/client/validate")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -117,7 +112,7 @@ public class ClientControllerTest {
 	@Test
 	void getPatientUpdateFormTest() throws Exception  {
 	
-		when(patientProxy.getPatientById(1)).thenReturn(patient1);
+		when(gatewayProxy.getPatientById(1)).thenReturn(patient1);
 		
 		mockMvc.perform(get("/client/patient/update/{id}", "1"))
 		.andExpect(status().isOk())
@@ -130,8 +125,8 @@ public class ClientControllerTest {
 	@Test
 	void updatePatientTest() throws Exception  {
 	
-		when(patientProxy.getPatientById(1)).thenReturn(patient1);
-		when(patientProxy.updatePatient(patient1)).thenReturn(patient1);
+		when(gatewayProxy.getPatientById(1)).thenReturn(patient1);
+		when(gatewayProxy.updatePatient(patient1)).thenReturn(patient1);
 		
 		mockMvc.perform(post("/client/patient/update/{id}", "1")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -151,8 +146,8 @@ public class ClientControllerTest {
 	@Test
 	void updatePatientFailTest() throws Exception  {
 	
-		when(patientProxy.getPatientById(1)).thenReturn(patient1);
-		when(patientProxy.updatePatient(patient1)).thenReturn(patient1);
+		when(gatewayProxy.getPatientById(1)).thenReturn(patient1);
+		when(gatewayProxy.updatePatient(patient1)).thenReturn(patient1);
 		
 		mockMvc.perform(post("/client/patient/update/{id}", "1")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -173,7 +168,7 @@ public class ClientControllerTest {
 	@Test
 	void deletePatientTest() throws Exception  {
 	
-		when(patientProxy.getPatientById(1)).thenReturn(patient1);
+		when(gatewayProxy.getPatientById(1)).thenReturn(patient1);
 
 		
 		mockMvc.perform(get("/client/patient/delete/{id}", "1"))
@@ -187,8 +182,8 @@ public class ClientControllerTest {
 		LinkedMultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
 		requestParams.add("keyword", "test");
 		
-		when(patientProxy.getPagePatientsByKeyword("test")).thenReturn(patients);
-		when(patientProxy.getPatients()).thenReturn(patients);
+		when(gatewayProxy.getPagePatientsByKeyword("test")).thenReturn(patients);
+		when(gatewayProxy.getPatients()).thenReturn(patients);
 		
 		mockMvc.perform(get("/client/patient/search").params(requestParams))
 		.andExpect(status().isOk())
@@ -205,7 +200,7 @@ public class ClientControllerTest {
 	@Test
 	void getPractitionerPageTest() throws Exception  {
 	
-		when(patientProxy.getPatientById(patient1.getId())).thenReturn(patient1);
+		when(gatewayProxy.getPatientById(patient1.getId())).thenReturn(patient1);
 		
 		mockMvc.perform(get("/client/practitioner"))
 		.andExpect(status().isOk())
@@ -221,8 +216,8 @@ public class ClientControllerTest {
 		LinkedMultiValueMap<String, String> requestParams = new LinkedMultiValueMap<>();
 		requestParams.add("keyword", "test");
 		
-		when(patientProxy.getPagePatientsByKeyword("test")).thenReturn(patients);
-		when(patientProxy.getPatients()).thenReturn(patients);
+		when(gatewayProxy.getPagePatientsByKeyword("test")).thenReturn(patients);
+		when(gatewayProxy.getPatients()).thenReturn(patients);
 		
 		mockMvc.perform(get("/client/practitioner/search").params(requestParams))
 		.andExpect(status().isOk())
@@ -239,9 +234,9 @@ public class ClientControllerTest {
 	void getAllDoctorNoteForPatientByHisIdTest() throws Exception  {
 
 		
-		when(patientProxy.getPatientById(1)).thenReturn(patient1);
-		when(patientProxy.getPatients()).thenReturn(patients);
-		when(diabetesAssessmentProxy.getRiskLevelDiabeteByPatientId(patient1.getId())).thenReturn(riskLevel.BORDERLINE);
+		when(gatewayProxy.getPatientById(1)).thenReturn(patient1);
+		when(gatewayProxy.getPatients()).thenReturn(patients);
+		when(gatewayProxy.getRiskLevelDiabeteByPatientId(patient1.getId())).thenReturn(riskLevel.BORDERLINE);
 		
 		mockMvc.perform(get("/client/practitioner/doctorNote/patient/{patientId}", "1"))
 		.andExpect(status().isOk())
@@ -257,8 +252,8 @@ public class ClientControllerTest {
 	void getAllDoctorNoteForPatientByHisIdFailTest() throws Exception  {
 
 		
-		when(patientProxy.getPatientById(1)).thenReturn(null);
-		when(patientProxy.getPatients()).thenReturn(null);
+		when(gatewayProxy.getPatientById(1)).thenReturn(null);
+		when(gatewayProxy.getPatients()).thenReturn(null);
 		
 		
 		mockMvc.perform(get("/client/practitioner/doctorNote/patient/{patientId}", "1"))
@@ -275,8 +270,8 @@ public class ClientControllerTest {
 	void addDoctorNoteTest() throws Exception  {
 
 		
-		when(patientProxy.getPatientById(1)).thenReturn(patient1);
-		when(diabetesAssessmentProxy.getRiskLevelDiabeteByPatientId(patient1.getId())).thenReturn(riskLevel.BORDERLINE);
+		when(gatewayProxy.getPatientById(1)).thenReturn(patient1);
+		when(gatewayProxy.getRiskLevelDiabeteByPatientId(patient1.getId())).thenReturn(riskLevel.BORDERLINE);
 		
 		mockMvc.perform(post("/client/practitioner/doctorNote/{patientId}", "1"))
 		.andExpect(status().isOk())
@@ -295,12 +290,12 @@ public class ClientControllerTest {
 		DoctorNoteBean doctorNote = new DoctorNoteBean();
 		doctorNote.setNoteId("1");
 		
-		when(doctorNoteProxy.getDoctorNoteById("1")).thenReturn(doctorNote);
-		when(doctorNoteProxy.deleteDoctorNoteForPatient(doctorNote.getNoteId())).thenReturn(doctorNote);
-		when(diabetesAssessmentProxy.getRiskLevelDiabeteByPatientId(patient1.getId())).thenReturn(riskLevel.BORDERLINE);
+		when(gatewayProxy.getDoctorNoteById("1")).thenReturn(doctorNote);
+		when(gatewayProxy.deleteDoctorNoteForPatient(doctorNote.getNoteId())).thenReturn(doctorNote);
+		when(gatewayProxy.getRiskLevelDiabeteByPatientId(patient1.getId())).thenReturn(riskLevel.BORDERLINE);
 		
-		when(patientProxy.getPatientById(doctorNote.getPatientId())).thenReturn(patient1);
-		when(doctorNoteProxy.getDoctorNoteByPatientId(patient1.getId())).thenReturn(List.of(doctorNote));
+		when(gatewayProxy.getPatientById(doctorNote.getPatientId())).thenReturn(patient1);
+		when(gatewayProxy.getDoctorNoteByPatientId(patient1.getId())).thenReturn(List.of(doctorNote));
 		
 		mockMvc.perform(get("/client/practitioner/doctorNote/delete/{id}", "1"))
 		.andExpect(status().isOk())

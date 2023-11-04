@@ -1,110 +1,111 @@
-version: '3'
+version: '3.9'
 services:
 
- config-server:
-    build: 
-      context: ./config-server
-    image: config-server:latest
-    container_name: config-server
-    restart: always
-    ports: 
-      - "9101:9101"
-    networks:
-      - medilabo
 
-
- eureka-server:
+  eureka-server:
     build: 
       context: ./eureka-server
     image: eureka-server:latest
     container_name: eureka-server
+    hostname: eureka-server
+    environment:
+      - eureka.client.serviceUrl.defaultZone= http://eureka-server:9102/eureka
+    
     restart: on-failure
     ports: 
       - "9102:9102"
     networks:
       - medilabo
-    depends_on:
-      - config-server
+       
       
-
- gateway-server:
+  gateway-server:
     build: 
       context: ./gateway-server
     image: gateway-server:latest
     container_name: gateway-server
+    environment:
+      - eureka.client.serviceUrl.defaultZone= http://eureka-server:9102/eureka
+
     restart: on-failure
     ports: 
       - "9103:9103"
     networks:
       - medilabo
     depends_on:
-      - config-server
-      - eureka-server
+      eureka-server:
+        condition: service_healthy
 
-
-
- mysqldb:
+  mysqldb:
     image: mysql:8
     container_name: mysqldb
-    volumes:
-      - /patient-ms/src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql
     restart: always
     environment:
       - "MYSQL_ROOT_PASSWORD=a627a158-1cd5-4ab1-a439-0d4873785246"
+      - "MYSQL_PASSWORD=a627a158-1cd5-4ab1-a439-0d4873785246"
       - "MYSQL_DATABASE=medilabo_patient"
+      - "MYSQL_USER=pierredb"
+    volumes:
+      - ./patient-ms/src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql
     ports:
       - "3307:3306"
     networks:
       - medilabo
 
-
- patient-ms:
+  patient-ms:
     build: 
       context: ./patient-ms
     image: patient-ms:latest
     container_name: patient-ms
     environment:
-      - "SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/medilabo_patient"
+      - "SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/medilabo_patient"
       - "SPRING_DATASOURCE_USERNAME=pierredb"
       - "SPRING_DATASOURCE_PASSWORD=a627a158-1cd5-4ab1-a439-0d4873785246"
+      - eureka.client.serviceUrl.defaultZone= http://eureka-server:9102/eureka
+
     depends_on:
-     - mysqldb
-     - config-server
-     - eureka-server
+      eureka-server:
+        condition: service_healthy
+      mysqldb:
+        condition: service_started
     ports:
      - "8080:8080"
     networks:
      - medilabo
     restart: on-failure
+  
+      
 
 
- mongodb:
+  mongodb:
     image: mongo:latest
     container_name: mongodb
     restart: always
     environment:
     - "MONGO_INITDB_DATABASE=doctornotes"
     volumes:
-    - /doctor-note-ms/src/main/resources/doctornotes.doctor_notes.json:/docker-entrypoint-initdb.d/doctornotes.doctor_notes.json
+    - ./doctor-note-ms/src/main/resources/data.js:/docker-entrypoint-initdb.d/data.js
     ports:
     - "27018:27017"
     networks:
     - medilabo
 
 
- doctor-note-ms:
+  doctor-note-ms:
     build: 
       context: ./doctor-note-ms
     image: doctor-note-ms:latest
     container_name: doctor-note-ms
     environment:
-      MONGODB_HOST: mongodb
-      MONGODB_PORT: 27018
-      MONGODB_DB: doctornotes
+      SPRING_DATA_MONGODB_HOST: mongodb
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_DATABASE: doctornotes
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE : http://eureka-server:9102/eureka
+
     depends_on:
-      - mongodb
-      - config-server
-      - eureka-server
+      eureka-server:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
     ports:
       - "8081:8081"
     networks:
@@ -112,16 +113,23 @@ services:
     restart: on-failure
 
 
- diabetes-assessment-ms:
+
+
+  diabetes-assessment-ms:
     build: 
       context: ./diabetes-assessment-ms
     image: diabetes-assessment-ms:latest
     container_name: diabetes-assessment-ms
+    environment:
+      - eureka.client.serviceUrl.defaultZone= http://eureka-server:9102/eureka
     depends_on:
-     - patient-ms
-     - doctor-note-ms
-     - config-server
-     - eureka-server
+      eureka-server:
+        condition: service_healthy
+      doctor-note-ms:
+        condition: service_started
+      patient-ms:
+        condition: service_started
+
     ports:
      - "8082:8082"
     networks:
@@ -129,23 +137,36 @@ services:
     restart: on-failure
 
 
- client-ui:
+
+  client-ui:
     build: 
       context: ./client-ui
     image: client-ui:latest
     container_name: client-ui
+    environment:
+      - eureka.client.serviceUrl.defaultZone= http://eureka-server:9102/eureka
+
     depends_on:
-     - config-server
-     - eureka-server
-     - patient-ms
-     - doctor-note-ms
-     - diabetes-assessment-ms
-     - gateway-server
+      eureka-server:
+        condition: service_healthy
+      doctor-note-ms:
+        condition: service_started
+      patient-ms:
+        condition: service_started
+      diabetes-assessment-ms:
+        condition: service_started
+      gateway-server:
+        condition: service_started
     ports:
      - "8083:8083"
     networks:
      - medilabo
     restart: on-failure
+
+
+
+
+
 
 
 networks:

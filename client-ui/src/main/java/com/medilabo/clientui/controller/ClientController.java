@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.medilabo.clientui.beans.DoctorNoteBean;
 import com.medilabo.clientui.beans.PatientBean;
 import com.medilabo.clientui.constant.RiskLevel;
-import com.medilabo.clientui.proxies.DiabetesAssessmentProxy;
-import com.medilabo.clientui.proxies.DoctorNoteProxy;
-import com.medilabo.clientui.proxies.PatientProxy;
+import com.medilabo.clientui.proxies.GatewayProxy;
+
 
 import jakarta.validation.Valid;
 
@@ -35,18 +33,12 @@ public class ClientController {
 
 	final static Logger LOGGER = LogManager.getLogger(ClientController.class);
 
-	private final PatientProxy patientProxy;
+	private final GatewayProxy gatewayProxy;
 
-	private final DoctorNoteProxy doctorNoteProxy;
-	
-	private final DiabetesAssessmentProxy diabetesAssessmentProxy;
 
-	public ClientController(PatientProxy patientProxy, DoctorNoteProxy doctorNoteProxy,
-			DiabetesAssessmentProxy diabetesAssessmentProxy) {
+	public ClientController(GatewayProxy gatewayProxy) {
 		super();
-		this.patientProxy = patientProxy;
-		this.doctorNoteProxy = doctorNoteProxy;
-		this.diabetesAssessmentProxy = diabetesAssessmentProxy;
+		this.gatewayProxy = gatewayProxy;
 	}
 
 	/**
@@ -57,7 +49,7 @@ public class ClientController {
 	 */
 	@GetMapping
 	public String accueil(Model model) {
-		List<PatientBean> patients = patientProxy.getPatients();
+		List<PatientBean> patients = gatewayProxy.getPatients();
 
 		model.addAttribute("patients", patients);
 
@@ -82,7 +74,7 @@ public class ClientController {
 			return "redirect:/client";
 		}
 
-		List<PatientBean> searchPatients = patientProxy.getPagePatientsByKeyword(keyword);
+		List<PatientBean> searchPatients = gatewayProxy.getPagePatientsByKeyword(keyword);
 
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("patients", searchPatients);
@@ -126,8 +118,8 @@ public class ClientController {
 		}
 
 		else {
-			patientProxy.addPatient(patient);
-			model.addAttribute("patients", patientProxy.getPatients());
+			gatewayProxy.addPatient(patient);
+			model.addAttribute("patients", gatewayProxy.getPatients());
 			return "redirect:/client";
 		}
 
@@ -143,7 +135,7 @@ public class ClientController {
 	@GetMapping("/patient/update/{id}")
 	public String showUpdatePatient(@PathVariable("id") Integer id, Model model) {
 		LOGGER.debug("Getting request patient/update/{id} for patient with id:{}", id);
-		PatientBean patient = patientProxy.getPatientById(id);
+		PatientBean patient = gatewayProxy.getPatientById(id);
 
 		model.addAttribute("patient", patient);
 		return "patient/update";
@@ -170,10 +162,10 @@ public class ClientController {
 			return "patient/update";
 		}
 
-		patient = patientProxy.updatePatient(patient);
+		patient = gatewayProxy.updatePatient(patient);
 
 		model.addAttribute("patient", patient);
-		model.addAttribute("patients", patientProxy.getPatients());
+		model.addAttribute("patients", gatewayProxy.getPatients());
 
 		return "redirect:/client";
 
@@ -189,15 +181,15 @@ public class ClientController {
 	@GetMapping("/patient/delete/{id}")
 	public String deletePatientById(@PathVariable("id") Integer id, Model model) {
 		LOGGER.debug("Getting request patient/delete/{id} for patient with id:{}", id);
-		PatientBean patient = patientProxy.getPatientById(id);
+		PatientBean patient = gatewayProxy.getPatientById(id);
 		if (patient == null) {
 			LOGGER.error("Error while deleting patient with id:{}", id);
 			return "redirect:/client";
 		}
 
-		patientProxy.deletePatientById(id);
+		gatewayProxy.deletePatientById(id);
 
-		model.addAttribute("patients", patientProxy.getPatients());
+		model.addAttribute("patients", gatewayProxy.getPatients());
 
 		return "redirect:/client";
 
@@ -237,7 +229,7 @@ public class ClientController {
 			return "redirect:/client/practitioner";
 		}
 
-		List<PatientBean> searchPatients = patientProxy.getPagePatientsByKeyword(keyword);
+		List<PatientBean> searchPatients = gatewayProxy.getPagePatientsByKeyword(keyword);
 
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("patients", searchPatients);
@@ -265,10 +257,10 @@ public class ClientController {
 		DoctorNoteBean doctorNote = new DoctorNoteBean();
 		model.addAttribute("doctorNote", doctorNote);
 
-		PatientBean patient = patientProxy.getPatientById(patientId);
-		List<DoctorNoteBean> doctorNotes = doctorNoteProxy.getDoctorNoteByPatientId(patientId);
+		PatientBean patient = gatewayProxy.getPatientById(patientId);
+		List<DoctorNoteBean> doctorNotes = gatewayProxy.getDoctorNoteByPatientId(patientId);
 
-		RiskLevel diabetesRiskLevel = diabetesAssessmentProxy.getRiskLevelDiabeteByPatientId(patientId);
+		RiskLevel diabetesRiskLevel = gatewayProxy.getRiskLevelDiabeteByPatientId(patientId);
 		
 		
 		if (doctorNotes == null || patient == null) {
@@ -299,7 +291,7 @@ public class ClientController {
 		LOGGER.debug("Posting request client/doctorNote for patient with id:{}", doctorNote.getPatientId());
 		model.addAttribute("doctorNote", doctorNote);
 
-		PatientBean patient = patientProxy.getPatientById(patientId);
+		PatientBean patient = gatewayProxy.getPatientById(patientId);
 		model.addAttribute("patient", patient);
 
 		if (result.hasErrors()) {
@@ -309,12 +301,12 @@ public class ClientController {
 
 		else {
 			doctorNote.setPatientId(patient.getId());
-			doctorNoteProxy.addDoctorNoteForPatient(doctorNote);
+			gatewayProxy.addDoctorNoteForPatient(doctorNote);
 
-			List<DoctorNoteBean> doctorNotes = doctorNoteProxy.getDoctorNoteByPatientId(doctorNote.getPatientId());
+			List<DoctorNoteBean> doctorNotes = gatewayProxy.getDoctorNoteByPatientId(doctorNote.getPatientId());
 			model.addAttribute("doctorNotes", doctorNotes);
 			
-			RiskLevel diabetesRiskLevel = diabetesAssessmentProxy.getRiskLevelDiabeteByPatientId(patientId);
+			RiskLevel diabetesRiskLevel = gatewayProxy.getRiskLevelDiabeteByPatientId(patientId);
 			model.addAttribute("diabetesRiskLevel", diabetesRiskLevel);
 			
 			return "patientReport";
@@ -332,25 +324,25 @@ public class ClientController {
 	@GetMapping("/practitioner/doctorNote/delete/{id}")
 	public String deleteNoteById(@PathVariable("id") String id, Model model) {
 		LOGGER.debug("Deleting request doctorNote/delete/{id} for note with id:{}", id);
-		DoctorNoteBean noteToDelete = doctorNoteProxy.getDoctorNoteById(id);
+		DoctorNoteBean noteToDelete = gatewayProxy.getDoctorNoteById(id);
 
 		if (noteToDelete == null) {
 			LOGGER.error("Error while deleting note with id:{}", id);
 			return "patientReport";
 		} else {
 
-			doctorNoteProxy.deleteDoctorNoteForPatient(id);
+			gatewayProxy.deleteDoctorNoteForPatient(id);
 
 			DoctorNoteBean doctorNote = new DoctorNoteBean();
 			model.addAttribute("doctorNote", doctorNote);
 
-			PatientBean patient = patientProxy.getPatientById(noteToDelete.getPatientId());
+			PatientBean patient = gatewayProxy.getPatientById(noteToDelete.getPatientId());
 			model.addAttribute("patient", patient);
 
-			List<DoctorNoteBean> doctorNotes = doctorNoteProxy.getDoctorNoteByPatientId(patient.getId());
+			List<DoctorNoteBean> doctorNotes = gatewayProxy.getDoctorNoteByPatientId(patient.getId());
 			model.addAttribute("doctorNotes", doctorNotes);
 			
-			RiskLevel diabetesRiskLevel = diabetesAssessmentProxy.getRiskLevelDiabeteByPatientId(patient.getId());
+			RiskLevel diabetesRiskLevel = gatewayProxy.getRiskLevelDiabeteByPatientId(patient.getId());
 			model.addAttribute("diabetesRiskLevel", diabetesRiskLevel);
 
 			return "patientReport";

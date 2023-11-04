@@ -14,7 +14,7 @@ import com.medilabo.diabetesassessmentms.beans.DoctorNoteBean;
  * Feign
  * 
  */
-@FeignClient(name = "doctor-note-ms", url = "localhost:8081")
+@FeignClient(name = "doctor-note-ms")
 public interface DoctorNoteProxy {
 
 	/**

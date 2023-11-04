@@ -12,7 +12,7 @@ import com.medilabo.diabetesassessmentms.beans.PatientBean;
  * Feign
  * 
  */
-@FeignClient(name = "patient-ms", url = "localhost:8080")
+@FeignClient(name = "patient-ms")
 public interface PatientProxy {
 
 	
