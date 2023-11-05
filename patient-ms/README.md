@@ -4,7 +4,7 @@
 Rest API develop in Java, to manage CRUD operations on patients informations
 
 
-This microservice is part of Médilabo project which allow screening of type 2 diabetes for patients by using their personnals informations and doctor's notes left during consultations.
+This microservice is part of Médilabo project which allows screening of type 2 diabetes for patients by using their personnals informations and doctor's notes left during consultations.
 
 Available for all platforms (PC, tablets, phones)
 

@@ -3,9 +3,9 @@
 
 Rest API develop in Java, to make diabetes assessment for patient by his id, base on his data which are retrieve from 2 other microservices (patient-ms and doctor-note-ms)
 
-Diabete risk level scale -> None / Borderline / In Danger / Early onset
+Diabetes risk level scale -> None / Borderline / In Danger / Early onset
 
-This microservice is part of Medilabo project which allow screening of type 2 diabetes for patients by using their personnals informations and doctor's notes left during consultations.
+This microservice is part of Medilabo project which allows screening of type 2 diabetes for patients by using their personnals informations and doctor's notes left during consultations.
 
 Available for all platforms (PC, tablets, phones)
 

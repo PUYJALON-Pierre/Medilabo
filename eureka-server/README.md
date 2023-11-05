@@ -3,10 +3,10 @@
 
 Application develop in Java, that let microservices registring into Eureka server in order to hold their informations.
 
-This allow to locate instances of microservices and make them communicate, without themselves directly knowing eachother.
+This allows to locate instances of microservices and make them communicate, without themselves directly knowing eachother.
 
 
-This microservice is part of Medilabo project which allow screening of type 2 diabetes for patients by using their personnals informations and doctor's notes left during consultations.
+This microservice is part of Medilabo project which allows screening of type 2 diabetes for patients by using their personnals informations and doctor's notes left during consultations.
 
 Available for all platforms (PC, tablets, phones)
 
@@ -33,7 +33,7 @@ Available for all platforms (PC, tablets, phones)
 
 -> Go to the root of the application and execute mvn spring-boot:run
 
--> When Eureka server is running, you can run microservices to let them register on Eureka server (microservices need to have eureka-client dependencies in their pom.xml and also the url adrress of the Eureka server in their properties).
+-> When Eureka server is running, you can run microservices to let them register on Eureka server (microservices need to have eureka-client dependencies in their pom.xml and also the url adrress of Eureka server in their properties).
 
 -> You can access to http://localhost:9102/ in order to see eureka server informations
 

@@ -1,12 +1,12 @@
 
 # Spring Cloud API Gateway :
 
-API Gateway develop in Java, that serve as entry point of Medilabo application. It allow to dispatch, modify and filter requests.
+API Gateway develop in Java, that serves as entry point of Medilabo application. It allows to dispatch, modify and filter requests.
 
-Also, it manage security of the application
+Also, it manages security of the application
 
 
-This service is part of Medilabo project which allow screening of type 2 diabetes for patients by using their personnals informations and doctor's notes left during consultations.
+This service is part of Medilabo project which allows screening of type 2 diabetes for patients by using their personnals informations and doctor's notes left during consultations.
 
 Available for all platforms (PC, tablets, phones)
 

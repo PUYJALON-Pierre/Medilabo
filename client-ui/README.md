@@ -5,7 +5,7 @@ Web interface develop in Java.
 
 Use Thymeleaf to expose view wih data retrieving from other services, communicating by Feign.
 
-This microservice is part of Medilabo project which allow screening of type 2 diabetes for patients by using their personnals informations and doctor's notes left during consultations.
+This microservice is part of Medilabo project which allows screening of type 2 diabetes for patients by using their personnals informations and doctor's notes left during consultations.
 
 Available for all platforms (PC, tablets, phones)
 
