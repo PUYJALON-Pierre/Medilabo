@@ -21,7 +21,7 @@ Available for all platforms (PC, tablets, phones)
 
 This project is composed of 6 microservices: 
 
-- Front-end
+- Front-end:
     
      -> client-ui (web interface)
 
@@ -65,13 +65,9 @@ Then request from client view pass through gateway and microservices communicate
 
 -> Clone this project from Github on your local machine
 
--> For each of 6 microservices, you have to run the command "mvn clean install" at the root of the application in order to create .jar.
+-> Then you can run "docker-compose up -d" at the root of medilabo project
 
-   All microservices (except the one building) need to be launch while doing mvn clean install in order to build correctly, especially for tests
-
--> Then you can run "docker-compose build" at the root of medilabo project and then "docker-compose up -d"
-
--> Please wait until that all containers are started and finish running (databases are also dockerize)
+-> Please wait until that all containers are started and finish running (SQL database is also dockerize, MongoDb not yet)
 
 -> You can see logs with command : "docker logs -f<name of microservice you want to see>", to be sure that everything is well started (can take few minutes because some of them require healthcheck to respect an order)
 
@@ -157,16 +153,12 @@ Green code is an approach to write code that minimizes energy consumption of sof
 
 - Optimize content of application (better to use static content, with lowest quality possible, with small size and limit length of text...)
 
-- We could also modify architecture of application by building everything into a single application, in order to reduce time for code to run, memory and energy use. Nevertheless, this will make lose advantages of micro-services that are autonomous and could be reused by medilabo to make other screening project for example.
-
-- We could use one type of data (SQL) in order to use a single database (because notes could be turned into a column note of string for patient).
-
 - We could change JDK image that generate container with docker for a smaller one (we already added a .dockerignore file in each microservices).
 
 - We can deploy mesurement tools like :
+
   -> EcoIndex (that asses environnment impact of a web page base on her weight, number elements composing it, number of requests)
   -> EcoMeter (that analyse results from EcoIndex base on 15 good practices on web page)
   -> Other tools for web or mobile (Ecograder, Mobile Efficiency Index, GreenSpector, mobile enerlytics, Website Speed Test...)
 
-- Finally we could use this checklist of goodpractice, to aim for a better green code (put link here)
-
+- Finally we could use this checklist of goodpractice, to aim for a better green code (https://s3-eu-west-1.amazonaws.com/course.oc-static.com/courses/6227476/2019-05-Ref-eco_web-checklist.v3.pdf)
