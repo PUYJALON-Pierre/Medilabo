@@ -158,7 +158,9 @@ Green code is an approach to write code that minimizes energy consumption of sof
 - We can deploy mesurement tools like :
 
   -> EcoIndex (that asses environnment impact of a web page base on her weight, number elements composing it, number of requests)
+
   -> EcoMeter (that analyse results from EcoIndex base on 15 good practices on web page)
+  
   -> Other tools for web or mobile (Ecograder, Mobile Efficiency Index, GreenSpector, mobile enerlytics, Website Speed Test...)
 
 - Finally we could use this checklist of goodpractice, to aim for a better green code (https://s3-eu-west-1.amazonaws.com/course.oc-static.com/courses/6227476/2019-05-Ref-eco_web-checklist.v3.pdf)
